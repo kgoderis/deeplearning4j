@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.deeplearning4j</groupId>
 		<artifactId>deeplearning4j</artifactId>
-		<version>1.0.0-M1.1</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>rl4j</artifactId>
@@ -18,7 +18,7 @@
 
 	<properties>
 		<nd4j.backend>nd4j-native-platform</nd4j.backend>
-		<openblas.version>0.3.13</openblas.version>
+		<gym.version>0.21.0</gym.version>
 	</properties>
 
 	<dependencies>
@@ -34,16 +34,6 @@
 			<groupId>org.bytedeco</groupId>
 			<artifactId>gym-platform</artifactId>
 			<version>${gym.version}-${javacpp-presets.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.bytedeco</groupId>
-			<artifactId>openblas</artifactId>
-			<version>${openblas.version}-${javacpp-presets.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.bytedeco</groupId>
-			<artifactId>openblas-platform</artifactId>
-			<version>${openblas.version}-${javacpp-presets.version}</version>
 		</dependency>
 
 		<!-- Malmo Dependencies -->
@@ -107,7 +97,7 @@
 			<version>${logback.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Other Dependencies -->
 		<dependency>
 			<groupId>org.bytedeco</groupId>
@@ -160,161 +150,177 @@
 			<version>0.6.3</version>
 		</dependency>
 	</dependencies>
-	
+
+	<repositories>
+		<repository>
+			<id>snapshots-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>  <!-- Optional, update daily -->
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <id>enforce-choice-of-nd4j-test-backend</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${skipBackendChoice}</skip>
-                            <rules>
-                                <requireActiveProfile>
-                                    <profiles>nd4j-tests-cpu,nd4j-tests-cuda</profiles>
-                                    <all>false</all>
-                                </requireActiveProfile>
-                            </rules>
-                            <fail>true</fail>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.lewisd</groupId>
-                <artifactId>lint-maven-plugin</artifactId>
-                <version>0.0.11</version>
-                <configuration>
-                    <failOnViolation>true</failOnViolation>
-                    <onlyRunRules>
-                        <rule>DuplicateDep</rule>
-                        <rule>RedundantDepVersion</rule>
-                        <rule>RedundantPluginVersion</rule>
-                        <!-- Rules incompatible with Java 9
-                        <rule>VersionProp</rule>
-                        <rule>DotVersionProperty</rule> -->
-                    </onlyRunRules>
-                    <xmlOutputFile>${project.build.directory}/maven-lint-result.xml</xmlOutputFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>pom-lint</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>net.revelc.code.formatter</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <configuration>
-                    <directories>
-                        <directory>rl4j</directory>
-                    </directories>
-                </configuration>
-            </plugin>
-            <!-- Configuration for git-commit-id plugin - used with ND4J version check functionality -->
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-            </plugin>
-            <!-- Add generated git.properties files resource directory, for output of git-commit-id plugin -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<id>enforce-choice-of-nd4j-test-backend</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<skip>${skipBackendChoice}</skip>
+							<rules>
+								<requireActiveProfile>
+									<profiles>nd4j-tests-cpu,nd4j-tests-cuda</profiles>
+									<all>false</all>
+								</requireActiveProfile>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.lewisd</groupId>
+				<artifactId>lint-maven-plugin</artifactId>
+				<version>0.0.11</version>
+				<configuration>
+					<failOnViolation>true</failOnViolation>
+					<onlyRunRules>
+						<rule>DuplicateDep</rule>
+						<rule>RedundantDepVersion</rule>
+						<rule>RedundantPluginVersion</rule>
+						<!-- Rules incompatible with Java 9 <rule>VersionProp</rule> <rule>DotVersionProperty</rule> -->
+					</onlyRunRules>
+					<xmlOutputFile>${project.build.directory}/maven-lint-result.xml</xmlOutputFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>pom-lint</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>net.revelc.code.formatter</groupId>
+				<artifactId>formatter-maven-plugin</artifactId>
+				<configuration>
+					<directories>
+						<directory>rl4j</directory>
+					</directories>
+				</configuration>
+			</plugin>
+			<!-- Configuration for git-commit-id plugin - used with ND4J version check 
+				functionality -->
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+			</plugin>
+			<!-- Add generated git.properties files resource directory, for output 
+				of git-commit-id plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
-        </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
-	
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
 	<profiles>
-        <profile>
-            <id>nd4j-tests-cpu</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.nd4j</groupId>
-                    <artifactId>nd4j-native</artifactId>
-                    <version>${nd4j.version}</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>nd4j-tests-cuda</id>
-            <properties>
-                <!-- Note we put these properties here because the cuda modules themselves  have the cuda version tied to the artifact name. This allows us to use variables for the testing.  -->
-                <cuda.version>11.4</cuda.version>
-                <cudnn.version>8.2</cudnn.version>
-                <javacpp-presets.cuda.version>1.5.6</javacpp-presets.cuda.version>
-                <junit.jupiter.execution.parallel.enabled>false</junit.jupiter.execution.parallel.enabled>
-                <junit.jupiter.execution.parallel.mode.default>same_thread</junit.jupiter.execution.parallel.mode.default>
+		<profile>
+			<id>nd4j-tests-cpu</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.nd4j</groupId>
+					<artifactId>nd4j-native</artifactId>
+					<version>${nd4j.version}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>nd4j-tests-cuda</id>
+			<properties>
+				<!-- Note we put these properties here because the cuda modules themselves 
+					have the cuda version tied to the artifact name. This allows us to use variables 
+					for the testing. -->
+				<cuda.version>11.4</cuda.version>
+				<cudnn.version>8.2</cudnn.version>
+				<javacpp-presets.cuda.version>1.5.6</javacpp-presets.cuda.version>
+				<junit.jupiter.execution.parallel.enabled>false</junit.jupiter.execution.parallel.enabled>
+				<junit.jupiter.execution.parallel.mode.default>same_thread</junit.jupiter.execution.parallel.mode.default>
 
-            </properties>
+			</properties>
 
-            <dependencies>
-                <dependency>
-                    <groupId>org.nd4j</groupId>
-                    <artifactId>nd4j-cuda-11.4</artifactId>
-                    <version>${nd4j.version}</version>
-                    <scope>test</scope>
-                </dependency>
+			<dependencies>
+				<dependency>
+					<groupId>org.nd4j</groupId>
+					<artifactId>nd4j-cuda-11.4</artifactId>
+					<version>${nd4j.version}</version>
+					<scope>test</scope>
+				</dependency>
 
-                <dependency>
-                    <groupId>org.deeplearning4j</groupId>
-                    <artifactId>deeplearning4j-cuda-11.4</artifactId>
-                    <version>${dl4j.version}</version>
-                </dependency>
+				<dependency>
+					<groupId>org.deeplearning4j</groupId>
+					<artifactId>deeplearning4j-cuda-11.4</artifactId>
+					<version>${dl4j.version}</version>
+				</dependency>
 
-                <dependency>
-                    <groupId>org.bytedeco</groupId>
-                    <artifactId>cuda-platform-redist</artifactId>
-                    <version>${cuda.version}-${cudnn.version}-${javacpp-presets.cuda.version}</version>
-                    <scope>test</scope>
-                </dependency>
+				<dependency>
+					<groupId>org.bytedeco</groupId>
+					<artifactId>cuda-platform-redist</artifactId>
+					<version>${cuda.version}-${cudnn.version}-${javacpp-presets.cuda.version}</version>
+					<scope>test</scope>
+				</dependency>
 
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <environmentVariables>
-                                <CUDA_VISIBLE_DEVICES>0</CUDA_VISIBLE_DEVICES>
-                            </environmentVariables>
-                            <parallelMavenExecution>false</parallelMavenExecution>
-                            <parallel>false</parallel>
-                            <forkCount>0</forkCount>
-                            <threadCount>1</threadCount>
-                            <perCoreThreadCount>false</perCoreThreadCount>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<environmentVariables>
+								<CUDA_VISIBLE_DEVICES>0</CUDA_VISIBLE_DEVICES>
+							</environmentVariables>
+							<parallelMavenExecution>false</parallelMavenExecution>
+							<parallel>false</parallel>
+							<forkCount>0</forkCount>
+							<threadCount>1</threadCount>
+							<perCoreThreadCount>false</perCoreThreadCount>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>nd4j-tests-aurora</id>
 		</profile>
-    </profiles>
+	</profiles>
 </project>
