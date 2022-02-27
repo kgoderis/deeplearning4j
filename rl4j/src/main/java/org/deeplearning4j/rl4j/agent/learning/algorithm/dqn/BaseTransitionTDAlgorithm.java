@@ -84,18 +84,17 @@ public abstract class BaseTransitionTDAlgorithm<ACTION extends DiscreteAction> i
     protected abstract double computeTarget(int batchIdx, double reward, boolean isTerminal);
 
     @Override
-    public FeaturesLabels compute(List<StateActionRewardState<ACTION>> stateActionRewardStates) {
+    public FeaturesLabels compute(List<StateActionRewardState<ACTION>> trainingBatch) {
+        int size = trainingBatch.size();
 
-        int size = stateActionRewardStates.size();
-
-        Features features = featuresBuilder.build(stateActionRewardStates);
-        Features nextFeatures = featuresBuilder.build(stateActionRewardStates.stream().map(e -> e.getNextObservation()), stateActionRewardStates.size());
+        Features features = featuresBuilder.build(trainingBatch);
+        Features nextFeatures = featuresBuilder.build(trainingBatch.stream().map(e -> e.getNextObservation()), trainingBatch.size());
 
         initComputation(features, nextFeatures);
 
         INDArray updatedQValues = qNetwork.output(features).get(CommonOutputNames.QValues);
         for (int i = 0; i < size; ++i) {
-            StateActionRewardState<ACTION> stateActionRewardState = stateActionRewardStates.get(i);
+            StateActionRewardState<ACTION> stateActionRewardState = trainingBatch.get(i);
             double yTarget = computeTarget(i, stateActionRewardState.getReward(), stateActionRewardState.isTerminal());
 
             if(isClamped) {

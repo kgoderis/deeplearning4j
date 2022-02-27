@@ -57,19 +57,4 @@ public class BoltzmannQ<OBSERVATION extends Observation, ACTION extends Action> 
         }
         return (ACTION) actionSpace.fromInteger(-1);
     }
-
-    @SuppressWarnings("unchecked")
-	@Deprecated
-    public ACTION nextAction(INDArray input) {
-        INDArray output = neuralNet.output(input).get(CommonOutputNames.QValues);
-        INDArray exp = exp(output);
-
-        double sum = exp.sum(1).getDouble(0);
-        double picked = rnd.nextDouble() * sum;
-        for (int i = 0; i < exp.columns(); i++) {
-            if (picked < exp.getDouble(i))
-            	return (ACTION) actionSpace.fromInteger(i);
-        }
-        return (ACTION) actionSpace.fromInteger(-1);
-    }
 }

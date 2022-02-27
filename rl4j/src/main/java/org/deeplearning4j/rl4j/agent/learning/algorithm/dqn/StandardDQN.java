@@ -31,40 +31,41 @@ import lombok.NonNull;
 
 public class StandardDQN<ACTION extends DiscreteAction> extends BaseDQNAlgorithm<ACTION> {
 
-    private static final int ACTION_DIMENSION_IDX = 1;
+	private static final int ACTION_DIMENSION_IDX = 1;
 
-    /**
-     * In literature, this corresponds to: max<sub>a</sub> Q<sub>tar</sub>(s<sub>t+1</sub>, a)
-     */
-    private INDArray maxActionsFromQTargetNextObservation;
+	// In literature, this corresponds to: max<sub>a</sub>
+	// Q<sub>tar</sub>(s<sub>t+1</sub>, a)
+	private INDArray maxActionsFromQTargetNextObservation;
 
-    public StandardDQN(OutputNeuralNet qNetwork, OutputNeuralNet targetQNetwork, @NonNull ActionSpace<ACTION> actionSpace,Configuration configuration) {
-        super(qNetwork, targetQNetwork, actionSpace, configuration);
-    }
+	public StandardDQN(OutputNeuralNet qNetwork, OutputNeuralNet targetQNetwork,
+			@NonNull ActionSpace<ACTION> actionSpace, Configuration configuration) {
+		super(qNetwork, targetQNetwork, actionSpace, configuration);
+	}
 
+	@Override
+	protected void initComputation(Features features, Features nextFeatures) {
+		super.initComputation(features, nextFeatures);
 
-    @Override
-    protected void initComputation(Features features, Features nextFeatures) {
-        super.initComputation(features, nextFeatures);
+		maxActionsFromQTargetNextObservation = Nd4j.max(targetQNetworkNextFeatures, ACTION_DIMENSION_IDX);
+	}
 
-        maxActionsFromQTargetNextObservation = Nd4j.max(targetQNetworkNextFeatures, ACTION_DIMENSION_IDX);
-    }
+	/**
+	 * In literature, this corresponds to:<br />
+	 * Q(s<sub>t</sub>, a<sub>t</sub>) = R<sub>t+1</sub> + &gamma; * max<sub>a</sub>
+	 * Q<sub>tar</sub>(s<sub>t+1</sub>, a)
+	 * 
+	 * @param batchIdx   The index in the batch of the current transition
+	 * @param reward     The reward of the current transition
+	 * @param isTerminal True if it's the last transition of the "game"
+	 * @return The estimated Q-Value
+	 */
+	@Override
+	protected double computeTarget(int batchIdx, double reward, boolean isTerminal) {
+		double yTarget = reward;
+		if (!isTerminal) {
+			yTarget += gamma * maxActionsFromQTargetNextObservation.getDouble(batchIdx);
+		}
 
-    /**
-     * In literature, this corresponds to:<br />
-     *      Q(s<sub>t</sub>, a<sub>t</sub>) = R<sub>t+1</sub> + &gamma; * max<sub>a</sub> Q<sub>tar</sub>(s<sub>t+1</sub>, a)
-     * @param batchIdx The index in the batch of the current transition
-     * @param reward The reward of the current transition
-     * @param isTerminal True if it's the last transition of the "game"
-     * @return The estimated Q-Value
-     */
-    @Override
-    protected double computeTarget(int batchIdx, double reward, boolean isTerminal) {
-        double yTarget = reward;
-        if (!isTerminal) {
-            yTarget += gamma * maxActionsFromQTargetNextObservation.getDouble(batchIdx);
-        }
-
-        return yTarget;
-    }
+		return yTarget;
+	}
 }

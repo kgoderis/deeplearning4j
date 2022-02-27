@@ -45,5 +45,4 @@ public abstract class BaseAsyncNeuralNetUpdater<RESULT> implements NeuralNetUpda
     public void synchronizeCurrent() {
         threadCurrent.copyFrom(sharedNetworksUpdateHandler.getGlobalCurrent());
     }
-
 }
