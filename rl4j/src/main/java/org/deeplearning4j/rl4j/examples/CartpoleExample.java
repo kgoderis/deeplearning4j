@@ -86,6 +86,15 @@ public class CartpoleExample {
 
     public static void main(String[] args) {
 
+    	System.setProperty("org.bytedeco.javacpp.logger.debug","true");
+    	
+        System.out.println(System.getProperty("os.name"));
+        System.out.println(System.getProperty("os.version"));
+        System.out.println(System.getProperty("os.arch"));
+    	System.out.println(System.getProperty("java.vm.name"));
+    	System.out.println(System.getProperty("java.vm.version"));
+    	System.out.println(System.getProperty("org.bytedeco.javacpp.logger.debug"));
+    	
         Builder<Environment<IntegerAction>> environmentBuilder = Cartpole::new;
         Builder<TransformProcess<Observation>> transformProcessBuilder = () -> TransformProcess.<Observation>builder()
                 .transform("data", new ArrayToINDArrayTransform())

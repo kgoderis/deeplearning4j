@@ -79,7 +79,6 @@ public class DoAsISayOrDont implements Environment<IntegerAction> {
 
     @Override
     public void close() {
-
     }
 
     private Map<String, Object> getChannelsData(boolean showIndicators) {

@@ -25,5 +25,4 @@ import org.deeplearning4j.nn.api.NeuralNetwork;
 public interface NetworkFactory {
 
 	NeuralNetwork[] build(int shapeInputs[], int numOutputs);
-
 }

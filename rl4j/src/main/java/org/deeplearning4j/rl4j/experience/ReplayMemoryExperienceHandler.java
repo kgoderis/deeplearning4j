@@ -42,7 +42,6 @@ public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTI
 	private static final int DEFAULT_BATCH_SIZE = 32;
 	private final int batchSize;
     final private Random random;
-    //Implementing this as a circular buffer queue
     private CircularFifoQueue<StateActionRewardState<ACTION>> storage;
 	private StateActionRewardState<ACTION> pendingStateActionRewardState;
 

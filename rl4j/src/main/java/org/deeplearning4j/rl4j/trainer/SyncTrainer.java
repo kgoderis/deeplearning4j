@@ -28,8 +28,6 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 
 import java.util.function.Predicate;
 
-// TODO: Add listeners & events
-
 public class SyncTrainer<OBSERVATION extends Observation, ACTION extends Action> implements Trainer {
 
     private final Predicate<SyncTrainer<OBSERVATION,ACTION>> stoppingCondition;

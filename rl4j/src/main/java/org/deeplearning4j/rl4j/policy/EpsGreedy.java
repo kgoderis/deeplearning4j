@@ -43,30 +43,8 @@ public class EpsGreedy<OBSERVATION extends Observation, ACTION extends Action> e
     final private Random rnd;
     final private double minEpsilon;
 
-//    final private MDP<OBSERVATION, ACTION, ActionSpace<ACTION>> mdp;
-//    final private IEpochTrainer learning;
-
     // Using agent's (learning's) step count is incorrect; frame skipping makes epsilon's value decrease too quickly
     private int annealingStep = 0;
-
-//    @Deprecated
-//    public <OBSERVATION extends Encodable, AS extends ActionSpace<ACTION>> EpsGreedy(BasePolicy<ACTION> policy,
-//                                                                                MDP<Encodable, ACTION, ActionSpace<ACTION>> mdp,
-//                                                                                int annealingStart,
-//                                                                                int epsilonNbStep,
-//                                                                                Random rnd,
-//                                                                                double minEpsilon,
-//                                                                                IEpochTrainer learning) {
-//        this.policy = policy;
-//        this.mdp = mdp;
-//        this.annealingStart = annealingStart;
-//        this.epsilonNbStep = epsilonNbStep;
-//        this.rnd = rnd;
-//        this.minEpsilon = minEpsilon;
-//        this.learning = learning;
-//
-//        this.actionSchema = null;
-//    }
 
     public EpsGreedy(@NonNull BasePolicy<OBSERVATION,ACTION> policy, @NonNull ActionSpace<ACTION> actionSpace, double minEpsilon, int annealingStart, int epsilonNbStep) {
         this(policy, actionSpace, minEpsilon, annealingStart, epsilonNbStep, null);
@@ -91,28 +69,7 @@ public class EpsGreedy<OBSERVATION extends Observation, ACTION extends Action> e
         return policy.getNeuralNet();
     }
 
-//    @Deprecated
-//    public ACTION nextAction(INDArray input) {
-//
-//        double ep = getEpsilon();
-//        if(actionSchema != null) {
-//            // Only legacy classes should pass here.
-//            throw new RuntimeException("nextAction(Observation observation) should be called when using a LearningAgent");
-//        }
-//
-//        if (learning.getStepCount() % 500 == 1)
-//            log.info("EP: " + ep + " " + learning.getStepCount());
-//        if (rnd.nextDouble() > ep)
-//            return policy.nextAction(input);
-//        else
-//            return mdp.getActionSpace().randomAction();
-//    }
-
     public ACTION nextAction(OBSERVATION observation) {
-        // FIXME: remove if() and content once deprecated methods are removed.
-//        if(actionSchema == null) {
-//            return this.nextAction(observation.getChannelData(0));
-//        }
 
         double ep = getEpsilon();
         if (annealingStep % 500 == 1) {

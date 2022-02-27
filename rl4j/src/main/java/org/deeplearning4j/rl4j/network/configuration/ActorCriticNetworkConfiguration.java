@@ -37,5 +37,4 @@ public class ActorCriticNetworkConfiguration extends NetworkConfiguration {
      */
     @Builder.Default
     private boolean useLSTM = false;
-
 }

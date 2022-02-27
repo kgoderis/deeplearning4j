@@ -48,89 +48,10 @@ public abstract class BasePolicy<OBSERVATION extends Observation, ACTION extends
 
     public abstract ACTION nextAction(OBSERVATION obs);
 
-//    @Deprecated
-//    public <O extends Encodable, AS extends ActionSpace<ACTION>> double play(MDP<O, ACTION, AS> mdp) {
-//        return play(mdp, (HistoryProcessor)null);
-//    }
-//
-//    @Deprecated
-//    public <O extends Encodable, AS extends ActionSpace<ACTION>> double play(MDP<O, ACTION, AS> mdp, VideoHistoryProcessor.Configuration conf) {
-//        return play(mdp, new VideoHistoryProcessor(conf));
-//    }
-
-//    @Deprecated
-//    @Override
-//    public <O extends Encodable, AS extends ActionSpace<ACTION>> double play(MDP<O, ACTION, AS> mdp, HistoryProcessor hp) {
-//        resetNetworks();
-//
-//        LegacyMDPWrapper<O, ACTION, AS> mdpWrapper = new LegacyMDPWrapper<O, ACTION, AS>(mdp, hp);
-//
-//        Learning.InitMdp<Observation> initMdp = refacInitMdp(mdpWrapper, hp);
-//        Observation obs = initMdp.getLastObs();
-//
-//        double reward = initMdp.getReward();
-//
-//        ACTION lastAction = mdpWrapper.getActionSpace().noOp();
-//        ACTION action;
-//
-//        while (!mdpWrapper.isDone()) {
-//
-//            if (obs.isSkipped()) {
-//                action = lastAction;
-//            } else {
-//                action = nextAction(obs);
-//            }
-//
-//            lastAction = action;
-//
-//            StepReply<Observation> stepReply = mdpWrapper.step(action);
-//            reward += stepReply.getReward();
-//
-//            obs = stepReply.getObservation();
-//        }
-//
-//        return reward;
-//    }
-
     protected void resetNetworks() {
         getNeuralNet().reset();
     }
     public void reset() {
         resetNetworks();
     }
-
-//    protected <O extends Encodable, AS extends ActionSpace<ACTION>> Learning.InitMdp<Observation> refacInitMdp(LegacyMDPWrapper<O, ACTION, AS> mdpWrapper, HistoryProcessor hp) {
-//
-//        double reward = 0;
-//
-//        OBSERVATION observation = mdpWrapper.reset();
-//
-//        ACTION action = mdpWrapper.getActionSpace().noOp(); //by convention should be the NO_OP
-//        while (observation.isSkipped() && !mdpWrapper.isDone()) {
-//
-//            StepReply<OBSERVATION> stepReply = mdpWrapper.step(action);
-//
-//            reward += stepReply.getReward();
-//            observation = stepReply.getObservation();
-//
-//        }
-//
-//        return new Learning.InitMdp(0, observation, reward);
-//    }
-    
-//    protected ACTION createAction()
-//    {
-//        ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();
-//        @SuppressWarnings("unchecked")
-//		Class<ACTION> type = (Class<ACTION>) superClass.getActualTypeArguments()[1];
-//        try
-//        {
-//            return type.getDeclaredConstructor().newInstance();
-//        }
-//        catch (Exception e)
-//        {
-//            // Oops, no default constructor
-//            throw new RuntimeException(e);
-//        }
-//    }
 }

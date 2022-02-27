@@ -21,20 +21,6 @@ public abstract class HighLowActionSpace extends DiscreteActionSpace<IntegerActi
 		this.matrix = matrix;
 	}
 
-	// TODO
-//	@Override
-//	public ACTION getRandomAction() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public int getIndex(ACTION action) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
-	
-  
   public INDArray encode(IntegerAction action) {
       INDArray m = matrix.dup();
       m.put(action.toInteger() - 1, 0, matrix.getDouble(action.toInteger() - 1, 1));

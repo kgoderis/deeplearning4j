@@ -32,14 +32,11 @@ public interface Environment<ACTION extends Action> {
      */
     ActionSpace<ACTION> getActionSpace();
     
-//    ObservationSpace<OBSERVATION> getObservationSpace();
-
     /**
      * Reset the environment's state to start a new episode.
      * @return
      */
     Map<String, Object> reset();
-//    OBSERVATION reset();
     
     /**
      * Perform a single step.
@@ -53,12 +50,9 @@ public interface Environment<ACTION extends Action> {
      * @return True if the episode is finished
      */
     boolean isEpisodeFinished();
-//    boolean isDone();
 
     /**
      * Called when the agent is finished using this environment instance.
      */
     void close();
-    
-//    MDP<OBSERVATION, ACTION, ACTION_SPACE> newInstance();
-}
+    }

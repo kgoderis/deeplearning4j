@@ -94,25 +94,9 @@ public abstract class BaseDQNAgentLearnerBuilder<OBSERVATION extends Observation
 	@Data
 	public static class Configuration<OBSERVATION extends Observation, ACTION extends Action>
 			extends BaseAgentLearnerBuilder.Configuration<OBSERVATION, ACTION> {
-//      public static class Configuration<ACTION extends DiscreteAction>{
 		EpsGreedy.Configuration policyConfiguration;
 		ReplayMemoryExperienceHandler.Configuration experienceHandlerConfiguration;
 		NeuralNetUpdaterConfiguration neuralNetUpdaterConfiguration;
 		BaseTransitionTDAlgorithm.Configuration updateAlgorithmConfiguration;
-//        
-//        /**
-//         * The configuration that will be used to build the {@link LearningAgent}
-//         */
-//        LearningAgent.Configuration agentLearnerConfiguration;
-//
-//        /**
-//         * A list of {@link AgentListener AgentListeners} that will be added to the LearningAgent. (default = null; no listeners)
-//         */
-//        List<AgentListener<ACTION>> agentLearnerListeners;
-//
-//        /**
-//         * Tell the builder that the AgentLearners will be used in an asynchronous setup
-//         */
-//        boolean asynchronous;
 	}
 }

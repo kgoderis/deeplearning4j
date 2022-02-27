@@ -56,12 +56,6 @@ public class RobotLake implements Environment<IntegerAction>  {
     @Getter
     private boolean goalReached = false;
 
-//    @Getter
-//    private DiscreteSpace actionSpace = new DiscreteSpace(NUM_ACTIONS);
-//
-//    @Getter
-//    private ObservationSpace<RobotLakeState> observationSpace = new ArrayObservationSpace(new int[] {  });
-
     private RobotLakeState state;
     private final int size;
 

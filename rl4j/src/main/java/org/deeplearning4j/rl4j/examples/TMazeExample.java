@@ -38,7 +38,6 @@ import org.deeplearning4j.rl4j.agent.learning.algorithm.actorcritic.AdvantageAct
 import org.deeplearning4j.rl4j.agent.learning.algorithm.nstepqlearning.NStepQLearning;
 import org.deeplearning4j.rl4j.agent.learning.history.DefaultHistoryProcessor;
 import org.deeplearning4j.rl4j.agent.learning.history.HistoryProcessor;
-import org.deeplearning4j.rl4j.agent.learning.history.VideoHistoryProcessor;
 import org.deeplearning4j.rl4j.agent.learning.update.updater.NeuralNetUpdaterConfiguration;
 import org.deeplearning4j.rl4j.agent.listener.AgentListener;
 import org.deeplearning4j.rl4j.builder.AdvantageActorCriticBuilder;

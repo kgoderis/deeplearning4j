@@ -72,6 +72,4 @@ public class BoltzmannQ<OBSERVATION extends Observation, ACTION extends Action> 
         }
         return (ACTION) actionSpace.fromInteger(-1);
     }
-
-
 }

@@ -25,5 +25,4 @@ import org.deeplearning4j.nn.graph.ComputationGraph;
 public interface GraphFactory {
 
 	ComputationGraph[] build(int shapeInputs[], int numOutputs);
-
 }

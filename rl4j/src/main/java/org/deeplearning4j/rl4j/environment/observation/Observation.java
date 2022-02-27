@@ -29,8 +29,6 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  * @author Alexandre Boulanger
  */
 public class Observation {
-//	public class Observation implements Encodable {
-
     /**
      * A singleton representing a skipped observation
      */
@@ -46,12 +44,6 @@ public class Observation {
         return channelsData[channelIdx];
     }
 
-//    // TODO: Remove once Encodable is removed
-//    @Override
-//    public double[] toArray() {
-//        return channelsData[0].data().asDouble();
-//    }
-
     public boolean isSkipped() {
         return channelsData == null;
     }
@@ -60,16 +52,10 @@ public class Observation {
         this.channelsData = null;
     }
 
-//    // TODO: Remove when legacy code is gone
-//    public Observation(INDArray data) {
-//        this.channelsData = new INDArray[] { data };
-//    }
-
     public Observation(INDArray[] channelsData) {
         this.channelsData = channelsData;
     }
 
-    // TODO: Remove when legacy code is gone
     public INDArray getData() {
         return channelsData[0];
     }

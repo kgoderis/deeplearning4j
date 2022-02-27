@@ -87,7 +87,6 @@ public class NativeCartpoleExample {
 
     public static void main(String[] args) {
 
-//        Builder<Environment<IntegerAction>> environmentBuilder = () -> Gym.<Observation,IntegerAction, IntegerActionSpace>builder().environment(envID).render(false).monitor(false).build();
         Builder<Environment<IntegerAction>> environmentBuilder = () -> IntegerGym.integerBuilder().environment(envID).render(false).monitor(false).build();
         Builder<TransformProcess<Observation>> transformProcessBuilder = () -> TransformProcess.<Observation>builder()
                 .transform("data", new ArrayToINDArrayTransform())

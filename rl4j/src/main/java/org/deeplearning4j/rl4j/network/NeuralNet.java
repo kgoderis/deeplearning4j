@@ -78,17 +78,4 @@ public interface NeuralNet<NET extends NeuralNet> extends TrainableNeuralNet<NET
      * @return latest score
      */
     double getLatestScore();
-
-    /**
-     * save the neural net into an OutputStream
-     * @param os OutputStream to save in
-     */
-    void save(OutputStream os) throws IOException;
-
-    /**
-     * save the neural net into a filename
-     * @param filename filename to save in
-     */
-    void save(String filename) throws IOException;
-
 }

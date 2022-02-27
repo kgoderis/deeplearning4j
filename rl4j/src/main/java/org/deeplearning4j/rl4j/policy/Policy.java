@@ -25,12 +25,7 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 public interface Policy<OBSERVATION extends Observation, ACTION extends Action> {
-//    @Deprecated
-//    <O extends Encodable, AS extends ActionSpace<ACTION>> double play(MDP<O, ACTION, AS> mdp, HistoryProcessor hp);
-
-//    @Deprecated
-//    ACTION nextAction(INDArray input);
-
+	
     ACTION nextAction(OBSERVATION observation);
 
     void reset();

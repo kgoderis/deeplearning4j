@@ -48,26 +48,9 @@ public class ACPolicy<OBSERVATION extends Observation, ACTION extends Action> ex
         this.rnd = !isTraining || rnd != null ? rnd : Nd4j.getRandom();
     }
 
-//    public static <OBSERVATION extends Observation, ACTION extends Action> ACPolicy<OBSERVATION, ACTION> load(String path) throws IOException {
-//        // TODO: Add better load/save support
-//        return new ACPolicy<>(ActorCriticCompGraph.load(path), false, null);
-//    }
-//    public static <OBSERVATION extends Observation, ACTION extends Action> ACPolicy<OBSERVATION, ACTION> load(String path, Random rnd) throws IOException {
-//        // TODO: Add better load/save support
-//        return new ACPolicy<>(ActorCriticCompGraph.load(path), true, rnd);
-//    }
-//
-//    public static <OBSERVATION extends Observation, ACTION extends Action> ACPolicy<OBSERVATION, ACTION> load(String pathValue, String pathPolicy) throws IOException {
-//        return new ACPolicy<>(ActorCriticSeparate.load(pathValue, pathPolicy), false, null);
-//    }
-//    public static <OBSERVATION extends Observation, ACTION extends Action> ACPolicy<OBSERVATION, ACTION> load(String pathValue, String pathPolicy, Random rnd) throws IOException {
-//        return new ACPolicy<>(ActorCriticSeparate.load(pathValue, pathPolicy), true, rnd);
-//    }
-
     @SuppressWarnings("unchecked")
 	@Override
     public ACTION nextAction(OBSERVATION obs) {
-        // Review: Should ActorCriticPolicy be a training policy only? Why not use the existing greedy policy when not training instead of duplicating the code?
         INDArray output = neuralNet.output(obs).get(CommonOutputNames.ActorCritic.Policy);
         if (!isTraining) {
             return (ACTION) actionSpace.fromArray(output);
@@ -83,33 +66,4 @@ public class ACPolicy<OBSERVATION extends Observation, ACTION extends Action> ex
 
         throw new RuntimeException("Output from network is not a probability distribution: " + output);
     }
-
-//    @Deprecated
-//    public Action nextAction(INDArray input) {
-//        INDArray output = ((ActorCritic) neuralNet).outputAll(input)[1];
-//        if (rnd == null) {
-//            return Learning.getMaxAction(output);
-//        }
-//        float rVal = rnd.nextFloat();
-//        for (int i = 0; i < output.length(); i++) {
-//            //System.out.println(i + " " + rVal + " " + output.getFloat(i));
-//            if (rVal < output.getFloat(i)) {
-//                return new IntegerAction(i);
-//            } else
-//                rVal -= output.getFloat(i);
-//        }
-//
-//        throw new RuntimeException("Output from network is not a probability distribution: " + output);
-//    }
-
-//    public void save(String filename) throws IOException {
-//        // TODO: Add better load/save support
-//        ((ActorCritic) neuralNet).save(filename);
-//    }
-//
-//    public void save(String filenameValue, String filenamePolicy) throws IOException {
-//        // TODO: Add better load/save support
-//        ((ActorCritic) neuralNet).save(filenameValue, filenamePolicy);
-//    }
-
 }

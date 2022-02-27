@@ -202,5 +202,4 @@ public class MultiLayerNetworkHandler extends PersistentNetworkHandler {
 		final String gradientName;
 		final int inputFeatureIdx;
 	}
-
 }

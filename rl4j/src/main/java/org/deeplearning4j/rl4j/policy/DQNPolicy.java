@@ -42,10 +42,6 @@ public class DQNPolicy<OBSERVATION extends Observation, ACTION extends DiscreteA
     public DQNPolicy(@NonNull OutputNeuralNet neuralNet, @NonNull ActionSpace<ACTION> actionSpace) {
     	super(neuralNet, actionSpace);
     }
-//    
-//    public static <OBSERVATION extends Observation, ACTION extends DiscreteAction> DQNPolicy<OBSERVATION, ACTION> load(String path) throws IOException {
-//        return new DQNPolicy<>(BaseDQN.load(path));
-//    }
 
     @SuppressWarnings("unchecked")
 	@Override
@@ -53,17 +49,4 @@ public class DQNPolicy<OBSERVATION extends Observation, ACTION extends DiscreteA
         INDArray output = neuralNet.output(obs).get(CommonOutputNames.QValues);
         return (ACTION) actionSpace.fromArray(output);
     }
-
-//    @SuppressWarnings("unchecked")
-//	@Deprecated
-//    public ACTION nextAction(INDArray input) {
-//        INDArray output = neuralNet.output(input).get(CommonOutputNames.QValues);
-//        return (ACTION) createAction().fromArray(output, true);
-//    }
-
-//    public void save(String filename) throws IOException {
-//        // TODO: refac load & save. Code below should continue to work in the meantime because it's only called by the lecacy code and it's only using a BaseDQN network with DQNPolicy
-//        ((DQN)neuralNet).save(filename);
-//    }
-
 }

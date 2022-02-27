@@ -28,5 +28,4 @@ public abstract class CommonGradientNames {
         public static final String Policy = "policy"; // actor
         public static final String Combined = "combined"; // combined actor-critic gradients
     }
-
 }
