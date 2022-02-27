@@ -30,7 +30,7 @@ import org.deeplearning4j.rl4j.agent.learning.update.FeaturesBuilder;
 import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
-import org.deeplearning4j.rl4j.experience.StateActionRewardState;
+import org.deeplearning4j.rl4j.experience.ObservationActionRewardObservation;
 import org.deeplearning4j.rl4j.network.CommonLabelNames;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
 import org.deeplearning4j.rl4j.network.OutputNeuralNet;
@@ -38,7 +38,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.util.List;
 
-public abstract class BaseTransitionTDAlgorithm<ACTION extends DiscreteAction> implements UpdateAlgorithm<FeaturesLabels, StateActionRewardState<ACTION>> {
+public abstract class BaseTransitionTDAlgorithm<ACTION extends DiscreteAction> implements UpdateAlgorithm<FeaturesLabels, ObservationActionRewardObservation<ACTION>> {
 
     protected final OutputNeuralNet qNetwork;
     protected final ActionSpace<ACTION> actionSpace;
@@ -84,7 +84,7 @@ public abstract class BaseTransitionTDAlgorithm<ACTION extends DiscreteAction> i
     protected abstract double computeTarget(int batchIdx, double reward, boolean isTerminal);
 
     @Override
-    public FeaturesLabels compute(List<StateActionRewardState<ACTION>> trainingBatch) {
+    public FeaturesLabels compute(List<ObservationActionRewardObservation<ACTION>> trainingBatch) {
         int size = trainingBatch.size();
 
         Features features = featuresBuilder.build(trainingBatch);
@@ -94,16 +94,16 @@ public abstract class BaseTransitionTDAlgorithm<ACTION extends DiscreteAction> i
 
         INDArray updatedQValues = qNetwork.output(features).get(CommonOutputNames.QValues);
         for (int i = 0; i < size; ++i) {
-            StateActionRewardState<ACTION> stateActionRewardState = trainingBatch.get(i);
-            double yTarget = computeTarget(i, stateActionRewardState.getReward(), stateActionRewardState.isTerminal());
+            ObservationActionRewardObservation<ACTION> observationActionRewardObservation = trainingBatch.get(i);
+            double yTarget = computeTarget(i, observationActionRewardObservation.getReward(), observationActionRewardObservation.isTerminal());
 
             if(isClamped) {
-                double previousQValue = updatedQValues.getDouble(i, actionSpace.getIndex(stateActionRewardState.getAction()));
+                double previousQValue = updatedQValues.getDouble(i, actionSpace.getIndex(observationActionRewardObservation.getAction()));
                 double lowBound = previousQValue - errorClamp;
                 double highBound = previousQValue + errorClamp;
                 yTarget = Math.min(highBound, Math.max(yTarget, lowBound));
             }
-            updatedQValues.putScalar(i, actionSpace.getIndex(stateActionRewardState.getAction()), yTarget);
+            updatedQValues.putScalar(i, actionSpace.getIndex(observationActionRewardObservation.getAction()), yTarget);
         }
 
         FeaturesLabels featuresLabels = new FeaturesLabels(features);

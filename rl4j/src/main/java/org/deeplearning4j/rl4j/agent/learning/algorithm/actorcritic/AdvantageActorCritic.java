@@ -30,7 +30,7 @@ import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.agent.learning.update.Gradients;
 import org.deeplearning4j.rl4j.environment.action.Action;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.CommonLabelNames;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
 import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
@@ -39,7 +39,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import java.util.List;
 
 public class AdvantageActorCritic<ACTION extends Action>
-		implements UpdateAlgorithm<Gradients, StateActionReward<ACTION>> {
+		implements UpdateAlgorithm<Gradients, ObservationActionReward<ACTION>> {
 
 	private final TrainableNeuralNet threadCurrent;
 	private final ActionSpace<ACTION> actionSpace;
@@ -63,16 +63,16 @@ public class AdvantageActorCritic<ACTION extends Action>
 	}
 
 	@Override
-	public Gradients compute(List<StateActionReward<ACTION>> trainingBatch) {
+	public Gradients compute(List<ObservationActionReward<ACTION>> trainingBatch) {
 		int size = trainingBatch.size();
 
 		Features features = featuresBuilder.build(trainingBatch);
 		INDArray values = algorithmHelper.createValueLabels(size);
 		INDArray policy = algorithmHelper.createPolicyLabels(size);
 
-		StateActionReward<ACTION> stateActionReward = trainingBatch.get(size - 1);
+		ObservationActionReward<ACTION> observationActionReward = trainingBatch.get(size - 1);
 		double value;
-		if (stateActionReward.isTerminal()) {
+		if (observationActionReward.isTerminal()) {
 			value = 0;
 		} else {
 			value = threadCurrent.output(trainingBatch.get(size - 1).getObservation())
@@ -80,9 +80,9 @@ public class AdvantageActorCritic<ACTION extends Action>
 		}
 
 		for (int i = size - 1; i >= 0; --i) {
-			stateActionReward = trainingBatch.get(i);
+			observationActionReward = trainingBatch.get(i);
 
-			value = stateActionReward.getReward() + gamma * value;
+			value = observationActionReward.getReward() + gamma * value;
 
 			// the critic
 			values.putScalar(i, value);
@@ -91,7 +91,7 @@ public class AdvantageActorCritic<ACTION extends Action>
 			double expectedV = threadCurrent.output(trainingBatch.get(i).getObservation())
 					.get(CommonOutputNames.ActorCritic.Value).getDouble(0);
 			double advantage = value - expectedV;
-			algorithmHelper.setPolicy(policy, i, actionSpace.getIndex(stateActionReward.getAction()), advantage);
+			algorithmHelper.setPolicy(policy, i, actionSpace.getIndex(observationActionReward.getAction()), advantage);
 		}
 
 		FeaturesLabels featuresLabels = new FeaturesLabels(features);

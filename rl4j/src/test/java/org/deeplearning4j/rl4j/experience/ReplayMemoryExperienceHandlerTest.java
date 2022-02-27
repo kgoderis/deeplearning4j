@@ -84,9 +84,9 @@ public class ReplayMemoryExperienceHandlerTest {
         sut.setFinalObservation(new Observation(Nd4j.create(new double[] { 3.0 })));
 
         // Assert
-        ArgumentCaptor<StateActionRewardState<Integer>> argument = ArgumentCaptor.forClass(StateActionRewardState.class);
+        ArgumentCaptor<ObservationActionRewardObservation<Integer>> argument = ArgumentCaptor.forClass(ObservationActionRewardObservation.class);
         verify(expReplayMock, times(2)).store(argument.capture());
-        List<StateActionRewardState<Integer>> stateActionRewardStates = argument.getAllValues();
+        List<ObservationActionRewardObservation<Integer>> stateActionRewardStates = argument.getAllValues();
 
         assertEquals(1.0, stateActionRewardStates.get(0).getObservation().getData().getDouble(0), 0.00001);
         assertEquals(1, (int) stateActionRewardStates.get(0).getAction());
@@ -111,9 +111,9 @@ public class ReplayMemoryExperienceHandlerTest {
         sut.addExperience(new Observation(Nd4j.create(new double[] { 3.0 })), 3, 3.0, false);
 
         // Assert
-        ArgumentCaptor<StateActionRewardState<Integer>> argument = ArgumentCaptor.forClass(StateActionRewardState.class);
+        ArgumentCaptor<ObservationActionRewardObservation<Integer>> argument = ArgumentCaptor.forClass(ObservationActionRewardObservation.class);
         verify(expReplayMock, times(1)).store(argument.capture());
-        StateActionRewardState<Integer> stateActionRewardState = argument.getValue();
+        ObservationActionRewardObservation<Integer> stateActionRewardState = argument.getValue();
 
         assertEquals(1, (int) stateActionRewardState.getAction());
     }

@@ -37,13 +37,13 @@ import java.util.List;
 
 @EqualsAndHashCode
 public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTION extends Action>
-		implements ExperienceHandler<OBSERVATION, ACTION, StateActionRewardState<ACTION>> {
+		implements ExperienceHandler<OBSERVATION, ACTION, ObservationActionRewardObservation<ACTION>> {
 	private static final int DEFAULT_MAX_REPLAY_MEMORY_SIZE = 150000;
 	private static final int DEFAULT_BATCH_SIZE = 32;
 	private final int batchSize;
     final private Random random;
-    private CircularFifoQueue<StateActionRewardState<ACTION>> storage;
-	private StateActionRewardState<ACTION> pendingStateActionRewardState;
+    private CircularFifoQueue<ObservationActionRewardObservation<ACTION>> storage;
+	private ObservationActionRewardObservation<ACTION> pendingObservationActionRewardObservation;
 
 	public ReplayMemoryExperienceHandler(Configuration configuration, Random random) {
         this.batchSize = configuration.batchSize;
@@ -53,12 +53,12 @@ public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTI
 
 	public void addExperience(OBSERVATION observation, ACTION action, double reward, boolean isTerminal) {
 		setNextObservationOnPending(observation);
-		pendingStateActionRewardState = new StateActionRewardState<>(observation, action, reward, isTerminal);
+		pendingObservationActionRewardObservation = new ObservationActionRewardObservation<>(observation, action, reward, isTerminal);
 	}
 
 	public void setFinalObservation(OBSERVATION observation) {
 		setNextObservationOnPending(observation);
-		pendingStateActionRewardState = null;
+		pendingObservationActionRewardObservation = null;
 	}
 
 	@Override
@@ -77,12 +77,12 @@ public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTI
 	 *         memory is unchanged after the call.
 	 */
 	@Override
-	public List<StateActionRewardState<ACTION>> generateTrainingBatch() {
+	public List<ObservationActionRewardObservation<ACTION>> generateTrainingBatch() {
 		return generateTrainingBatch(batchSize);
 	}
 	
-	public List<StateActionRewardState<ACTION>> generateTrainingBatch(int size) {
-        ArrayList<StateActionRewardState<ACTION>> batch = new ArrayList<>(size);
+	public List<ObservationActionRewardObservation<ACTION>> generateTrainingBatch(int size) {
+        ArrayList<ObservationActionRewardObservation<ACTION>> batch = new ArrayList<>(size);
         int storageSize = storage.size();
         int actualBatchSize = Math.min(storageSize, size);
 
@@ -98,7 +98,7 @@ public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTI
         }
 
         for (int i = 0; i < actualBatchSize; i ++) {
-            StateActionRewardState<ACTION> trans = storage.get(actualIndex[i]);
+            ObservationActionRewardObservation<ACTION> trans = storage.get(actualIndex[i]);
             batch.add(trans.dup());
         }
 
@@ -106,13 +106,13 @@ public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTI
 
 	@Override
 	public void reset() {
-		pendingStateActionRewardState = null;
+		pendingObservationActionRewardObservation = null;
 	}
 
 	private void setNextObservationOnPending(Observation observation) {
-		if (pendingStateActionRewardState != null) {
-			pendingStateActionRewardState.setNextObservation(observation);
-	        storage.add(pendingStateActionRewardState);
+		if (pendingObservationActionRewardObservation != null) {
+			pendingObservationActionRewardObservation.setNextObservation(observation);
+	        storage.add(pendingObservationActionRewardObservation);
 		}
 	}
 

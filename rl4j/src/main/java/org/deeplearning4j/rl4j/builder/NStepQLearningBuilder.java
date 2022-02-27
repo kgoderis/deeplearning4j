@@ -35,7 +35,7 @@ import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
 import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.transform.TransformProcess;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
 import org.deeplearning4j.rl4j.policy.DQNPolicy;
 import org.deeplearning4j.rl4j.policy.EpsGreedy;
@@ -73,7 +73,7 @@ public class NStepQLearningBuilder<OBSERVATION extends Observation, ACTION exten
 	}
 
 	@Override
-	protected UpdateAlgorithm<Gradients, StateActionReward<ACTION>> buildUpdateAlgorithm() {
+	protected UpdateAlgorithm<Gradients, ObservationActionReward<ACTION>> buildUpdateAlgorithm() {
 		return new NStepQLearning(networks.getThreadCurrentNetwork(), networks.getTargetNetwork(),
 				getEnvironment().getActionSpace(), configuration.getNstepQLearningConfiguration());
 	}

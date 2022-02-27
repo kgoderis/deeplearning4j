@@ -21,7 +21,7 @@ package org.deeplearning4j.rl4j.agent.learning.algorithm.nstepqlearning;
 
 import org.deeplearning4j.rl4j.agent.learning.update.Features;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.OutputNeuralNet;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
@@ -59,5 +59,5 @@ public abstract class NStepQLearningHelper<ACTION extends DiscreteAction> {
      * @return A INDArray filled with the observations from the trainingBatch
      * @return The expected Q values for the last element of the training batch
      */
-    public abstract INDArray getTargetExpectedQValuesOfLast(OutputNeuralNet target, List<StateActionReward<ACTION>> trainingBatch, Features features);
+    public abstract INDArray getTargetExpectedQValuesOfLast(OutputNeuralNet target, List<ObservationActionReward<ACTION>> trainingBatch, Features features);
 }

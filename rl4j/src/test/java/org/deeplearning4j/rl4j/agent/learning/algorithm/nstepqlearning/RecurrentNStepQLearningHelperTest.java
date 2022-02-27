@@ -22,7 +22,7 @@ package org.deeplearning4j.rl4j.agent.learning.algorithm.nstepqlearning;
 
 import org.deeplearning4j.rl4j.agent.learning.update.Features;
 import org.deeplearning4j.rl4j.environment.observation.Observation;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
 import org.deeplearning4j.rl4j.network.OutputNeuralNet;
 import org.deeplearning4j.rl4j.network.NeuralNetOutput;
@@ -89,10 +89,10 @@ public class RecurrentNStepQLearningHelperTest {
     @Test
     public void when_callingGetTargetExpectedQValuesOfLast_expect_INDArrayWithCorrectShape() {
         // Arrange
-        List<StateActionReward<Integer>> experience = new ArrayList<StateActionReward<Integer>>() {
+        List<ObservationActionReward<Integer>> experience = new ArrayList<ObservationActionReward<Integer>>() {
             {
-                add(new StateActionReward<Integer>(new Observation(Nd4j.create(new double[] { 1.1, 1.2 }).reshape(1, 2, 1)), 0, 1.0, false));
-                add(new StateActionReward<Integer>(new Observation(Nd4j.create(new double[] { 2.1, 2.2 }).reshape(1, 2, 1)), 1, 2.0, false));
+                add(new ObservationActionReward<Integer>(new Observation(Nd4j.create(new double[] { 1.1, 1.2 }).reshape(1, 2, 1)), 0, 1.0, false));
+                add(new ObservationActionReward<Integer>(new Observation(Nd4j.create(new double[] { 2.1, 2.2 }).reshape(1, 2, 1)), 1, 2.0, false));
             }
         };
         INDArray featuresData = Nd4j.create(new double[] { 1.0, 2.0, 3.0, 4.0 }).reshape(1, 2, 2);

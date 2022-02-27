@@ -33,7 +33,7 @@ import org.deeplearning4j.rl4j.environment.action.Action;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
 import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.transform.TransformProcess;
-import org.deeplearning4j.rl4j.experience.StateActionRewardState;
+import org.deeplearning4j.rl4j.experience.ObservationActionRewardObservation;
 import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
 import org.nd4j.linalg.api.rng.Random;
 
@@ -53,7 +53,7 @@ public class StandardDQNBuilder<OBSERVATION extends Observation, ACTION extends 
 	}
 
 	@Override
-	protected UpdateAlgorithm<FeaturesLabels, StateActionRewardState<ACTION>> buildUpdateAlgorithm() {
+	protected UpdateAlgorithm<FeaturesLabels, ObservationActionRewardObservation<ACTION>> buildUpdateAlgorithm() {
 		return new StandardDQN(networks.getThreadCurrentNetwork(), networks.getTargetNetwork(),
 				getEnvironment().getActionSpace(), configuration.getUpdateAlgorithmConfiguration());
 	}

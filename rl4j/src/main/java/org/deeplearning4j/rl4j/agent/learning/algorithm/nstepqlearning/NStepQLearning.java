@@ -30,7 +30,7 @@ import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.agent.learning.update.Gradients;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.CommonLabelNames;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
 import org.deeplearning4j.rl4j.network.OutputNeuralNet;
@@ -40,7 +40,7 @@ import org.nd4j.linalg.factory.Nd4j;
 
 import java.util.List;
 
-public class NStepQLearning<ACTION extends DiscreteAction> implements UpdateAlgorithm<Gradients, StateActionReward<ACTION>> {
+public class NStepQLearning<ACTION extends DiscreteAction> implements UpdateAlgorithm<Gradients, ObservationActionReward<ACTION>> {
 
     private final TrainableNeuralNet threadCurrent;
     private final OutputNeuralNet target;
@@ -71,17 +71,15 @@ public class NStepQLearning<ACTION extends DiscreteAction> implements UpdateAlgo
     }
 
     @Override
-    public Gradients compute(List<StateActionReward<ACTION>> trainingBatch) {
+    public Gradients compute(List<ObservationActionReward<ACTION>> trainingBatch) {
         int size = trainingBatch.size();
 
-        StateActionReward<ACTION> stateActionReward = trainingBatch.get(size - 1);
-
+        ObservationActionReward<ACTION> observationActionReward = trainingBatch.get(size - 1);
         Features features = featuresBuilder.build(trainingBatch);
-
         INDArray labels = algorithmHelper.createLabels(size);
 
         double r;
-        if (stateActionReward.isTerminal()) {
+        if (observationActionReward.isTerminal()) {
             r = 0;
         } else {
             INDArray expectedValuesOfLast = algorithmHelper.getTargetExpectedQValuesOfLast(target, trainingBatch, features);
@@ -89,11 +87,11 @@ public class NStepQLearning<ACTION extends DiscreteAction> implements UpdateAlgo
         }
 
         for (int i = size - 1; i >= 0; --i) {
-            stateActionReward = trainingBatch.get(i);
+            observationActionReward = trainingBatch.get(i);
 
-            r = stateActionReward.getReward() + gamma * r;
-            INDArray expectedQValues = threadCurrent.output(stateActionReward.getObservation()).get(CommonOutputNames.QValues);
-            expectedQValues = expectedQValues.putScalar(actionSpace.getIndex(stateActionReward.getAction()), r);
+            r = observationActionReward.getReward() + gamma * r;
+            INDArray expectedQValues = threadCurrent.output(observationActionReward.getObservation()).get(CommonOutputNames.QValues);
+            expectedQValues = expectedQValues.putScalar(actionSpace.getIndex(observationActionReward.getAction()), r);
 
             algorithmHelper.setLabels(labels, i, expectedQValues);
         }

@@ -29,36 +29,36 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateActionExperienceHandler<OBSERVATION extends Observation, ACTION extends Action> implements ExperienceHandler<OBSERVATION, ACTION, StateActionReward<ACTION>> {
+public class ObservationActionExperienceHandler<OBSERVATION extends Observation, ACTION extends Action> implements ExperienceHandler<OBSERVATION, ACTION, ObservationActionReward<ACTION>> {
     private static final int DEFAULT_BATCH_SIZE = 8;
 
     private final int batchSize;
 
     private boolean isFinalObservationSet;
 
-    public StateActionExperienceHandler(Configuration configuration) {
+    public ObservationActionExperienceHandler(Configuration configuration) {
         this.batchSize = configuration.getBatchSize();
     }
 
-    private List<StateActionReward<ACTION>> stateActionRewards = new ArrayList<>();
+    private List<ObservationActionReward<ACTION>> observationActionRewards = new ArrayList<>();
 
     public void setFinalObservation(OBSERVATION observation) {
         isFinalObservationSet = true;
     }
 
     public void addExperience(OBSERVATION observation, ACTION action, double reward, boolean isTerminal) {
-        stateActionRewards.add(new StateActionReward<ACTION>(observation, action, reward, isTerminal));
+        observationActionRewards.add(new ObservationActionReward<ACTION>(observation, action, reward, isTerminal));
     }
 
     @Override
     public int getTrainingBatchSize() {
-        return stateActionRewards.size();
+        return observationActionRewards.size();
     }
 
     @Override
     public boolean isTrainingBatchReady() {
-        return stateActionRewards.size() >= batchSize
-                || (isFinalObservationSet && stateActionRewards.size() > 0);
+        return observationActionRewards.size() >= batchSize
+                || (isFinalObservationSet && observationActionRewards.size() > 0);
     }
 
     /**
@@ -68,16 +68,16 @@ public class StateActionExperienceHandler<OBSERVATION extends Observation, ACTIO
      * @return The list of experience elements
      */
     @Override
-    public List<StateActionReward<ACTION>> generateTrainingBatch() {
-        List<StateActionReward<ACTION>> result = stateActionRewards;
-        stateActionRewards = new ArrayList<>();
+    public List<ObservationActionReward<ACTION>> generateTrainingBatch() {
+        List<ObservationActionReward<ACTION>> result = observationActionRewards;
+        observationActionRewards = new ArrayList<>();
 
         return result;
     }
 
     @Override
     public void reset() {
-        stateActionRewards = new ArrayList<>();
+        observationActionRewards = new ArrayList<>();
         isFinalObservationSet = false;
     }
 

@@ -21,7 +21,7 @@
 package org.deeplearning4j.rl4j.learning.sync;
 
 import org.deeplearning4j.rl4j.environment.observation.Observation;
-import org.deeplearning4j.rl4j.experience.StateActionRewardState;
+import org.deeplearning4j.rl4j.experience.ObservationActionRewardObservation;
 import org.deeplearning4j.rl4j.support.MockRandom;
 import org.junit.jupiter.api.Test;
 import org.nd4j.linalg.factory.Nd4j;
@@ -38,10 +38,10 @@ public class ExpReplayTest {
         ExpReplay<Integer> sut = new ExpReplay<Integer>(2, 1, randomMock);
 
         // Act
-        StateActionRewardState<Integer> stateActionRewardState = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState = buildTransition(buildObservation(),
                 123, 234, new Observation(Nd4j.create(1)));
         sut.store(stateActionRewardState);
-        List<StateActionRewardState<Integer>> results = sut.getBatch(1);
+        List<ObservationActionRewardObservation<Integer>> results = sut.getBatch(1);
 
         // Assert
         assertEquals(1, results.size());
@@ -56,16 +56,16 @@ public class ExpReplayTest {
         ExpReplay<Integer> sut = new ExpReplay<Integer>(2, 1, randomMock);
 
         // Act
-        StateActionRewardState<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
                 1, 2, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
                 3, 4, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
                 5, 6, new Observation(Nd4j.create(1)));
         sut.store(stateActionRewardState1);
         sut.store(stateActionRewardState2);
         sut.store(stateActionRewardState3);
-        List<StateActionRewardState<Integer>> results = sut.getBatch(2);
+        List<ObservationActionRewardObservation<Integer>> results = sut.getBatch(2);
 
         // Assert
         assertEquals(2, results.size());
@@ -85,7 +85,7 @@ public class ExpReplayTest {
         ExpReplay<Integer> sut = new ExpReplay<Integer>(5, 1, randomMock);
 
         // Act
-        List<StateActionRewardState<Integer>> results = sut.getBatch(0);
+        List<ObservationActionRewardObservation<Integer>> results = sut.getBatch(0);
 
         // Assert
         assertEquals(0, results.size());
@@ -98,16 +98,16 @@ public class ExpReplayTest {
         ExpReplay<Integer> sut = new ExpReplay<Integer>(5, 1, randomMock);
 
         // Act
-        StateActionRewardState<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
                 1, 2, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
                 3, 4, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
                 5, 6, new Observation(Nd4j.create(1)));
         sut.store(stateActionRewardState1);
         sut.store(stateActionRewardState2);
         sut.store(stateActionRewardState3);
-        List<StateActionRewardState<Integer>> results = sut.getBatch(0);
+        List<ObservationActionRewardObservation<Integer>> results = sut.getBatch(0);
 
         // Assert
         assertEquals(0, results.size());
@@ -120,16 +120,16 @@ public class ExpReplayTest {
         ExpReplay<Integer> sut = new ExpReplay<Integer>(5, 1, randomMock);
 
         // Act
-        StateActionRewardState<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
                 1, 2, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
                 3, 4, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
                 5, 6, new Observation(Nd4j.create(1)));
         sut.store(stateActionRewardState1);
         sut.store(stateActionRewardState2);
         sut.store(stateActionRewardState3);
-        List<StateActionRewardState<Integer>> results = sut.getBatch(10);
+        List<ObservationActionRewardObservation<Integer>> results = sut.getBatch(10);
 
         // Assert
         assertEquals(3, results.size());
@@ -151,22 +151,22 @@ public class ExpReplayTest {
         ExpReplay<Integer> sut = new ExpReplay<Integer>(5, 1, randomMock);
 
         // Act
-        StateActionRewardState<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
                 1, 2, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
                 3, 4, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
                 5, 6, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState4 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState4 = buildTransition(buildObservation(),
                 7, 8, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState5 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState5 = buildTransition(buildObservation(),
                 9, 10, new Observation(Nd4j.create(1)));
         sut.store(stateActionRewardState1);
         sut.store(stateActionRewardState2);
         sut.store(stateActionRewardState3);
         sut.store(stateActionRewardState4);
         sut.store(stateActionRewardState5);
-        List<StateActionRewardState<Integer>> results = sut.getBatch(3);
+        List<ObservationActionRewardObservation<Integer>> results = sut.getBatch(3);
 
         // Assert
         assertEquals(3, results.size());
@@ -188,22 +188,22 @@ public class ExpReplayTest {
         ExpReplay<Integer> sut = new ExpReplay<Integer>(5, 1, randomMock);
 
         // Act
-        StateActionRewardState<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState1 = buildTransition(buildObservation(),
                 1, 2, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState2 = buildTransition(buildObservation(),
                 3, 4, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState3 = buildTransition(buildObservation(),
                 5, 6, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState4 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState4 = buildTransition(buildObservation(),
                 7, 8, new Observation(Nd4j.create(1)));
-        StateActionRewardState<Integer> stateActionRewardState5 = buildTransition(buildObservation(),
+        ObservationActionRewardObservation<Integer> stateActionRewardState5 = buildTransition(buildObservation(),
                 9, 10, new Observation(Nd4j.create(1)));
         sut.store(stateActionRewardState1);
         sut.store(stateActionRewardState2);
         sut.store(stateActionRewardState3);
         sut.store(stateActionRewardState4);
         sut.store(stateActionRewardState5);
-        List<StateActionRewardState<Integer>> results = sut.getBatch(3);
+        List<ObservationActionRewardObservation<Integer>> results = sut.getBatch(3);
 
         // Assert
         assertEquals(3, results.size());
@@ -218,8 +218,8 @@ public class ExpReplayTest {
         assertEquals(6, (int)results.get(2).getReward());
     }
 
-    private StateActionRewardState<Integer> buildTransition(Observation observation, Integer action, double reward, Observation nextObservation) {
-        StateActionRewardState<Integer> result = new StateActionRewardState<Integer>(observation, action, reward, false);
+    private ObservationActionRewardObservation<Integer> buildTransition(Observation observation, Integer action, double reward, Observation nextObservation) {
+        ObservationActionRewardObservation<Integer> result = new ObservationActionRewardObservation<Integer>(observation, action, reward, false);
         result.setNextObservation(nextObservation);
 
         return result;

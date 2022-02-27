@@ -21,7 +21,7 @@
 package org.deeplearning4j.rl4j.learning.sync;
 
 import org.deeplearning4j.rl4j.environment.observation.Observation;
-import org.deeplearning4j.rl4j.experience.StateActionRewardState;
+import org.deeplearning4j.rl4j.experience.ObservationActionRewardObservation;
 import org.junit.jupiter.api.Test;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -39,7 +39,7 @@ public class StateActionRewardStateTest {
         Observation nextObservation = buildObservation(nextObs);
 
         // Act
-        StateActionRewardState stateActionRewardState = buildTransition(observation, 123, 234.0, nextObservation);
+        ObservationActionRewardObservation stateActionRewardState = buildTransition(observation, 123, 234.0, nextObservation);
 
         // Assert
         double[][] expectedObservation = new double[][] { obs };
@@ -70,7 +70,7 @@ public class StateActionRewardStateTest {
         Observation nextObservation = buildObservation(nextObs);
 
         // Act
-        StateActionRewardState stateActionRewardState = buildTransition(observation, 123, 234.0, nextObservation);
+        ObservationActionRewardObservation stateActionRewardState = buildTransition(observation, 123, 234.0, nextObservation);
 
         // Assert
         assertExpected(obs, stateActionRewardState.getObservation().getChannelData(0));
@@ -103,8 +103,8 @@ public class StateActionRewardStateTest {
         return new Observation(Nd4j.concat(0, nextHistory));
     }
 
-    private StateActionRewardState buildTransition(Observation observation, int action, double reward, Observation nextObservation) {
-        StateActionRewardState result = new StateActionRewardState(observation, action, reward, false);
+    private ObservationActionRewardObservation buildTransition(Observation observation, int action, double reward, Observation nextObservation) {
+        ObservationActionRewardObservation result = new ObservationActionRewardObservation(observation, action, reward, false);
         result.setNextObservation(nextObservation);
 
         return result;

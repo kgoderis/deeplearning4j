@@ -23,7 +23,7 @@ package org.deeplearning4j.rl4j.agent.learning.algorithm.nstepqlearning;
 import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.agent.learning.update.Gradients;
 import org.deeplearning4j.rl4j.environment.observation.Observation;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.*;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
@@ -86,9 +86,9 @@ public class NonRecurrentNStepQLearningTest {
         setup(1.0);
 
         final Observation observation = new Observation(Nd4j.zeros(1, 2));
-        List<StateActionReward<Integer>> experience = new ArrayList<StateActionReward<Integer>>() {
+        List<ObservationActionReward<Integer>> experience = new ArrayList<ObservationActionReward<Integer>>() {
             {
-                add(new StateActionReward<Integer>(observation, action, 0.0, true));
+                add(new ObservationActionReward<Integer>(observation, action, 0.0, true));
             }
         };
 
@@ -110,9 +110,9 @@ public class NonRecurrentNStepQLearningTest {
         setup(1.0);
 
         final Observation observation = new Observation(Nd4j.create(new double[] { -123.0, -234.0 }).reshape(1, 2));
-        List<StateActionReward<Integer>> experience = new ArrayList<StateActionReward<Integer>>() {
+        List<ObservationActionReward<Integer>> experience = new ArrayList<ObservationActionReward<Integer>>() {
             {
-                add(new StateActionReward<Integer>(observation, action, 0.0, false));
+                add(new ObservationActionReward<Integer>(observation, action, 0.0, false));
             }
         };
 
@@ -133,10 +133,10 @@ public class NonRecurrentNStepQLearningTest {
         double gamma = 0.9;
         setup(gamma);
 
-        List<StateActionReward<Integer>> experience = new ArrayList<StateActionReward<Integer>>() {
+        List<ObservationActionReward<Integer>> experience = new ArrayList<ObservationActionReward<Integer>>() {
             {
-                add(new StateActionReward<Integer>(new Observation(Nd4j.create(new double[] { -1.1, -1.2 }).reshape(1, 2)), 0, 1.0, false));
-                add(new StateActionReward<Integer>(new Observation(Nd4j.create(new double[] { -2.1, -2.2 }).reshape(1, 2)), 1, 2.0, true));
+                add(new ObservationActionReward<Integer>(new Observation(Nd4j.create(new double[] { -1.1, -1.2 }).reshape(1, 2)), 0, 1.0, false));
+                add(new ObservationActionReward<Integer>(new Observation(Nd4j.create(new double[] { -2.1, -2.2 }).reshape(1, 2)), 1, 2.0, true));
             }
         };
 

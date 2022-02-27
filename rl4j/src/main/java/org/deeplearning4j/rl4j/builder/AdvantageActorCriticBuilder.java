@@ -35,7 +35,7 @@ import org.deeplearning4j.rl4j.environment.action.Action;
 import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.transform.TransformProcess;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
 import org.deeplearning4j.rl4j.policy.ACPolicy;
 import org.deeplearning4j.rl4j.policy.Policy;
@@ -63,7 +63,7 @@ public class AdvantageActorCriticBuilder<OBSERVATION extends Observation, ACTION
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	protected UpdateAlgorithm<Gradients, StateActionReward<ACTION>> buildUpdateAlgorithm() {
+	protected UpdateAlgorithm<Gradients, ObservationActionReward<ACTION>> buildUpdateAlgorithm() {
 		return new AdvantageActorCritic<ACTION>(networks.getThreadCurrentNetwork(), getEnvironment().getActionSpace(),
 				configuration.getAdvantageActorCriticConfiguration());
 	}

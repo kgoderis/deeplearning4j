@@ -55,7 +55,7 @@ import org.deeplearning4j.rl4j.environment.observation.transform.operation.INDAr
 import org.deeplearning4j.rl4j.environment.observation.transform.operation.ScreenToINDArrayTransform;
 import org.deeplearning4j.rl4j.environment.observation.transform.operation.SimpleNormalizationTransform;
 import org.deeplearning4j.rl4j.experience.ReplayMemoryExperienceHandler;
-import org.deeplearning4j.rl4j.experience.StateActionExperienceHandler;
+import org.deeplearning4j.rl4j.experience.ObservationActionExperienceHandler;
 import org.deeplearning4j.rl4j.mdp.Cartpole;
 import org.deeplearning4j.rl4j.mdp.ale.ALE;
 import org.deeplearning4j.rl4j.mdp.gym.Gym;
@@ -215,7 +215,7 @@ public class ALEExample {
 						NeuralNetUpdaterConfiguration.builder().targetUpdateFrequency(50).build())
 				.nstepQLearningConfiguration(NStepQLearning.Configuration.builder().build())
 				.experienceHandlerConfiguration(
-						StateActionExperienceHandler.Configuration.builder().batchSize(5).build())
+						ObservationActionExperienceHandler.Configuration.builder().batchSize(5).build())
 				.agentLearnerConfiguration(LearningAgent.Configuration.builder().maxEpisodeSteps(10000).build())
 				.agentLearnerListeners(listeners).asynchronous(IS_ASYNC).build();
 		return new NStepQLearningBuilder(configuration, network, environmentBuilder, transformProcessBuilder,
@@ -232,7 +232,7 @@ public class ALEExample {
 				.neuralNetUpdaterConfiguration(NeuralNetUpdaterConfiguration.builder().build())
 				.advantageActorCriticConfiguration(AdvantageActorCritic.Configuration.builder().gamma(0.99).build())
 				.experienceHandlerConfiguration(
-						StateActionExperienceHandler.Configuration.builder().batchSize(5).build())
+						ObservationActionExperienceHandler.Configuration.builder().batchSize(5).build())
 				.agentLearnerConfiguration(LearningAgent.Configuration.builder().maxEpisodeSteps(10000).build())
 				.agentLearnerListeners(listeners).asynchronous(IS_ASYNC).build();
 		return new AdvantageActorCriticBuilder(configuration, network, environmentBuilder, transformProcessBuilder,

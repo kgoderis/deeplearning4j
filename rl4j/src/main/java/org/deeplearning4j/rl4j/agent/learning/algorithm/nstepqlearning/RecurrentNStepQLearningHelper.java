@@ -21,7 +21,7 @@ package org.deeplearning4j.rl4j.agent.learning.algorithm.nstepqlearning;
 
 import org.deeplearning4j.rl4j.agent.learning.update.Features;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
 import org.deeplearning4j.rl4j.network.OutputNeuralNet;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -53,7 +53,7 @@ public class RecurrentNStepQLearningHelper<ACTION extends DiscreteAction> extend
     }
 
     @Override
-    public INDArray getTargetExpectedQValuesOfLast(OutputNeuralNet target, List<StateActionReward<ACTION>> trainingBatch, Features features) {
+    public INDArray getTargetExpectedQValuesOfLast(OutputNeuralNet target, List<ObservationActionReward<ACTION>> trainingBatch, Features features) {
         return getElementAtIndex(target.output(features).get(CommonOutputNames.QValues), trainingBatch.size() - 1);
     }
 

@@ -23,7 +23,7 @@ package org.deeplearning4j.rl4j.agent.learning.algorithm.dqn;
 import org.deeplearning4j.rl4j.agent.learning.update.Features;
 import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.environment.observation.Observation;
-import org.deeplearning4j.rl4j.experience.StateActionRewardState;
+import org.deeplearning4j.rl4j.experience.ObservationActionRewardObservation;
 import org.deeplearning4j.rl4j.network.CommonLabelNames;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
 import org.deeplearning4j.rl4j.network.OutputNeuralNet;
@@ -83,7 +83,7 @@ public class DoubleDQNTest {
             return result;
         });
 
-        List<StateActionRewardState<Integer>> stateActionRewardStates = new ArrayList<StateActionRewardState<Integer>>() {
+        List<ObservationActionRewardObservation<Integer>> stateActionRewardStates = new ArrayList<ObservationActionRewardObservation<Integer>>() {
             {
                 add(builtTransition(buildObservation(new double[]{1.1, 2.2}),
                         0, 1.0, true, buildObservation(new double[]{11.0, 22.0})));
@@ -111,7 +111,7 @@ public class DoubleDQNTest {
             return result;
         });
 
-        List<StateActionRewardState<Integer>> stateActionRewardStates = new ArrayList<StateActionRewardState<Integer>>() {
+        List<ObservationActionRewardObservation<Integer>> stateActionRewardStates = new ArrayList<ObservationActionRewardObservation<Integer>>() {
             {
                 add(builtTransition(buildObservation(new double[]{1.1, 2.2}),
                         0, 1.0, false, buildObservation(new double[]{11.0, 22.0})));
@@ -139,7 +139,7 @@ public class DoubleDQNTest {
             return result;
         });
 
-        List<StateActionRewardState<Integer>> stateActionRewardStates = new ArrayList<StateActionRewardState<Integer>>() {
+        List<ObservationActionRewardObservation<Integer>> stateActionRewardStates = new ArrayList<ObservationActionRewardObservation<Integer>>() {
             {
                 add(builtTransition(buildObservation(new double[]{1.1, 2.2}),
                         0, 1.0, false, buildObservation(new double[]{11.0, 22.0})));
@@ -172,8 +172,8 @@ public class DoubleDQNTest {
         return new Observation(Nd4j.create(data).reshape(1, 2));
     }
 
-    private StateActionRewardState<Integer> builtTransition(Observation observation, Integer action, double reward, boolean isTerminal, Observation nextObservation) {
-        StateActionRewardState<Integer> result = new StateActionRewardState<Integer>(observation, action, reward, isTerminal);
+    private ObservationActionRewardObservation<Integer> builtTransition(Observation observation, Integer action, double reward, boolean isTerminal, Observation nextObservation) {
+        ObservationActionRewardObservation<Integer> result = new ObservationActionRewardObservation<Integer>(observation, action, reward, isTerminal);
         result.setNextObservation(nextObservation);
 
         return result;

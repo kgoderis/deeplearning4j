@@ -27,7 +27,7 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.ObservationSource;
 
 @AllArgsConstructor
-public class StateActionReward<ACTION extends Action> implements ObservationSource {
+public class ObservationActionReward<ACTION extends Action> implements ObservationSource {
 
     /**
      * The observation before the action is taken

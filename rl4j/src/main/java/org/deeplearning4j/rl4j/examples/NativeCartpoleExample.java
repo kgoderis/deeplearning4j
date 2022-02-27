@@ -46,7 +46,7 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.transform.TransformProcess;
 import org.deeplearning4j.rl4j.environment.observation.transform.operation.ArrayToINDArrayTransform;
 import org.deeplearning4j.rl4j.experience.ReplayMemoryExperienceHandler;
-import org.deeplearning4j.rl4j.experience.StateActionExperienceHandler;
+import org.deeplearning4j.rl4j.experience.ObservationActionExperienceHandler;
 import org.deeplearning4j.rl4j.mdp.gym.Gym;
 import org.deeplearning4j.rl4j.mdp.gym.IntegerGym;
 import org.deeplearning4j.rl4j.network.ActorCriticNetwork;
@@ -184,7 +184,7 @@ public class NativeCartpoleExample {
                         .build())
                 .nstepQLearningConfiguration(NStepQLearning.Configuration.builder()
                         .build())
-                .experienceHandlerConfiguration(StateActionExperienceHandler.Configuration.builder()
+                .experienceHandlerConfiguration(ObservationActionExperienceHandler.Configuration.builder()
                         .batchSize(128)
                         .build())
                 .agentLearnerConfiguration(LearningAgent.Configuration.builder()
@@ -207,7 +207,7 @@ public class NativeCartpoleExample {
                 .advantageActorCriticConfiguration(AdvantageActorCritic.Configuration.builder()
                         .gamma(0.99)
                         .build())
-                .experienceHandlerConfiguration(StateActionExperienceHandler.Configuration.builder()
+                .experienceHandlerConfiguration(ObservationActionExperienceHandler.Configuration.builder()
                         .batchSize(5)
                         .build())
                 .agentLearnerConfiguration(LearningAgent.Configuration.builder()

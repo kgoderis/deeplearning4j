@@ -22,7 +22,7 @@ package org.deeplearning4j.rl4j.agent.learning.algorithm.actorcritic;
 
 import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.environment.observation.Observation;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.CommonLabelNames;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
 import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
@@ -81,9 +81,9 @@ public class NonRecurrentAdvantageActorCriticTest {
         int action = 0;
         final INDArray data = Nd4j.zeros(1, 2);
         final Observation observation = new Observation(data);
-        List<StateActionReward<Integer>> experience = new ArrayList<StateActionReward<Integer>>() {
+        List<ObservationActionReward<Integer>> experience = new ArrayList<ObservationActionReward<Integer>>() {
             {
-                add(new StateActionReward<Integer>(observation, action, 0.0, true));
+                add(new ObservationActionReward<Integer>(observation, action, 0.0, true));
             }
         };
         when(threadCurrentMock.output(observation)).thenReturn(neuralNetOutputMock);
@@ -105,9 +105,9 @@ public class NonRecurrentAdvantageActorCriticTest {
         int action = 0;
         final INDArray data = Nd4j.zeros(1, 2);
         final Observation observation = new Observation(data);
-        List<StateActionReward<Integer>> experience = new ArrayList<StateActionReward<Integer>>() {
+        List<ObservationActionReward<Integer>> experience = new ArrayList<ObservationActionReward<Integer>>() {
             {
-                add(new StateActionReward<Integer>(observation, action, 0.0, false));
+                add(new ObservationActionReward<Integer>(observation, action, 0.0, false));
             }
         };
         when(threadCurrentMock.output(observation)).thenReturn(neuralNetOutputMock);
@@ -133,10 +133,10 @@ public class NonRecurrentAdvantageActorCriticTest {
             result.put(CommonOutputNames.ActorCritic.Policy, invocation.getArgument(0, Observation.class).getData().mul(-0.1));
             return result;
         });
-        List<StateActionReward<Integer>> experience = new ArrayList<StateActionReward<Integer>>() {
+        List<ObservationActionReward<Integer>> experience = new ArrayList<ObservationActionReward<Integer>>() {
             {
-                add(new StateActionReward<Integer>(new Observation(Nd4j.create(new double[] { -1.1, -1.2 }).reshape(1, 2)), 0, 1.0, false));
-                add(new StateActionReward<Integer>(new Observation(Nd4j.create(new double[] { -2.1, -2.2 }).reshape(1, 2)), 1, 2.0, false));
+                add(new ObservationActionReward<Integer>(new Observation(Nd4j.create(new double[] { -1.1, -1.2 }).reshape(1, 2)), 0, 1.0, false));
+                add(new ObservationActionReward<Integer>(new Observation(Nd4j.create(new double[] { -2.1, -2.2 }).reshape(1, 2)), 1, 2.0, false));
             }
         };
 

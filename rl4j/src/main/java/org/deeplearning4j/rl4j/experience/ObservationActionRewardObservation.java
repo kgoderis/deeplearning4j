@@ -29,19 +29,24 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.ObservationSource;
 
 @Data
-public class StateActionRewardState<ACTION extends Action> implements ObservationSource {
+public class ObservationActionRewardObservation<ACTION extends Action> implements ObservationSource {
 
     @Getter
-    Observation observation;
+    private final Observation observation;
 
-    ACTION action;
-    double reward;
-    boolean isTerminal;
+    @Getter
+    private final ACTION action;
+    
+    @Getter
+    private final double reward;
+    
+    @Getter
+    private final boolean isTerminal;
 
     @Getter @Setter
     Observation nextObservation;
 
-    public StateActionRewardState(Observation observation, ACTION action, double reward, boolean isTerminal) {
+    public ObservationActionRewardObservation(Observation observation, ACTION action, double reward, boolean isTerminal) {
         this.observation = observation;
         this.action = action;
         this.reward = reward;
@@ -49,7 +54,7 @@ public class StateActionRewardState<ACTION extends Action> implements Observatio
         this.nextObservation = null;
     }
 
-    private StateActionRewardState(Observation observation, ACTION action, double reward, boolean isTerminal, Observation nextObservation) {
+    private ObservationActionRewardObservation(Observation observation, ACTION action, double reward, boolean isTerminal, Observation nextObservation) {
         this.observation = observation;
         this.action = action;
         this.reward = reward;
@@ -60,10 +65,10 @@ public class StateActionRewardState<ACTION extends Action> implements Observatio
     /**
      * @return a duplicate of this instance
      */
-    public StateActionRewardState<ACTION> dup() {
+    public ObservationActionRewardObservation<ACTION> dup() {
         Observation dupObservation = observation.dup();
         Observation nextObs = nextObservation.dup();
 
-        return new StateActionRewardState<ACTION>(dupObservation, action, reward, isTerminal, nextObs);
+        return new ObservationActionRewardObservation<ACTION>(dupObservation, action, reward, isTerminal, nextObs);
     }
 }

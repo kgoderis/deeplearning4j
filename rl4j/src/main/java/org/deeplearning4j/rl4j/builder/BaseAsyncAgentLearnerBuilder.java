@@ -35,13 +35,13 @@ import org.deeplearning4j.rl4j.environment.action.Action;
 import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.transform.TransformProcess;
 import org.deeplearning4j.rl4j.experience.ExperienceHandler;
-import org.deeplearning4j.rl4j.experience.StateActionExperienceHandler;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionExperienceHandler;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
 import org.deeplearning4j.rl4j.policy.EpsGreedy;
 
 public abstract class BaseAsyncAgentLearnerBuilder<OBSERVATION extends Observation, ACTION extends Action, CONFIGURATION extends BaseAsyncAgentLearnerBuilder.Configuration<OBSERVATION, ACTION>>
-		extends BaseAgentLearnerBuilder<OBSERVATION, ACTION, StateActionReward<ACTION>, Gradients, CONFIGURATION> {
+		extends BaseAgentLearnerBuilder<OBSERVATION, ACTION, ObservationActionReward<ACTION>, Gradients, CONFIGURATION> {
 
 	private final AsyncSharedNetworksUpdateHandler asyncSharedNetworksUpdateHandler;
 
@@ -53,8 +53,8 @@ public abstract class BaseAsyncAgentLearnerBuilder<OBSERVATION extends Observati
 	}
 
 	@Override
-	protected ExperienceHandler<OBSERVATION,ACTION, StateActionReward<ACTION>> buildExperienceHandler() {
-		return new StateActionExperienceHandler<OBSERVATION,ACTION>(configuration.getExperienceHandlerConfiguration());
+	protected ExperienceHandler<OBSERVATION,ACTION, ObservationActionReward<ACTION>> buildExperienceHandler() {
+		return new ObservationActionExperienceHandler<OBSERVATION,ACTION>(configuration.getExperienceHandlerConfiguration());
 	}
 
 	@Override
@@ -71,6 +71,6 @@ public abstract class BaseAsyncAgentLearnerBuilder<OBSERVATION extends Observati
 			extends BaseAgentLearnerBuilder.Configuration<OBSERVATION, ACTION> {
 		EpsGreedy.Configuration policyConfiguration;
 		NeuralNetUpdaterConfiguration neuralNetUpdaterConfiguration;
-		StateActionExperienceHandler.Configuration experienceHandlerConfiguration;
+		ObservationActionExperienceHandler.Configuration experienceHandlerConfiguration;
 	}
 }

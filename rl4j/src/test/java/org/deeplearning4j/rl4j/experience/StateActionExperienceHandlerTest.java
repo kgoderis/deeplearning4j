@@ -34,8 +34,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @NativeTag
 public class StateActionExperienceHandlerTest {
 
-    private StateActionExperienceHandler.Configuration buildConfiguration(int batchSize) {
-        return StateActionExperienceHandler.Configuration.builder()
+    private ObservationActionExperienceHandler.Configuration buildConfiguration(int batchSize) {
+        return ObservationActionExperienceHandler.Configuration.builder()
                 .batchSize(batchSize)
                 .build();
     }
@@ -43,13 +43,13 @@ public class StateActionExperienceHandlerTest {
     @Test
     public void when_addingExperience_expect_generateTrainingBatchReturnsIt() {
         // Arrange
-        StateActionExperienceHandler sut = new StateActionExperienceHandler(buildConfiguration(Integer.MAX_VALUE));
+        ObservationActionExperienceHandler sut = new ObservationActionExperienceHandler(buildConfiguration(Integer.MAX_VALUE));
         sut.reset();
         Observation observation = new Observation(Nd4j.zeros(1));
         sut.addExperience(observation, 123, 234.0, true);
 
         // Act
-        List<StateActionReward<Integer>> result = sut.generateTrainingBatch();
+        List<ObservationActionReward<Integer>> result = sut.generateTrainingBatch();
 
         // Assert
         assertEquals(1, result.size());
@@ -62,14 +62,14 @@ public class StateActionExperienceHandlerTest {
     @Test
     public void when_addingMultipleExperiences_expect_generateTrainingBatchReturnsItInSameOrder() {
         // Arrange
-        StateActionExperienceHandler sut = new StateActionExperienceHandler(buildConfiguration(Integer.MAX_VALUE));
+        ObservationActionExperienceHandler sut = new ObservationActionExperienceHandler(buildConfiguration(Integer.MAX_VALUE));
         sut.reset();
         sut.addExperience(null, 1, 1.0, false);
         sut.addExperience(null, 2, 2.0, false);
         sut.addExperience(null, 3, 3.0, false);
 
         // Act
-        List<StateActionReward<Integer>> result = sut.generateTrainingBatch();
+        List<ObservationActionReward<Integer>> result = sut.generateTrainingBatch();
 
         // Assert
         assertEquals(3, result.size());
@@ -81,13 +81,13 @@ public class StateActionExperienceHandlerTest {
     @Test
     public void when_gettingExperience_expect_experienceStoreIsCleared() {
         // Arrange
-        StateActionExperienceHandler sut = new StateActionExperienceHandler(buildConfiguration(Integer.MAX_VALUE));
+        ObservationActionExperienceHandler sut = new ObservationActionExperienceHandler(buildConfiguration(Integer.MAX_VALUE));
         sut.reset();
         sut.addExperience(null, 1, 1.0, false);
 
         // Act
-        List<StateActionReward<Integer>> firstResult = sut.generateTrainingBatch();
-        List<StateActionReward<Integer>> secondResult = sut.generateTrainingBatch();
+        List<ObservationActionReward<Integer>> firstResult = sut.generateTrainingBatch();
+        List<ObservationActionReward<Integer>> secondResult = sut.generateTrainingBatch();
 
         // Assert
         assertEquals(1, firstResult.size());
@@ -97,7 +97,7 @@ public class StateActionExperienceHandlerTest {
     @Test
     public void when_addingExperience_expect_getTrainingBatchSizeReturnSize() {
         // Arrange
-        StateActionExperienceHandler sut = new StateActionExperienceHandler(buildConfiguration(Integer.MAX_VALUE));
+        ObservationActionExperienceHandler sut = new ObservationActionExperienceHandler(buildConfiguration(Integer.MAX_VALUE));
         sut.reset();
         sut.addExperience(null, 1, 1.0, false);
         sut.addExperience(null, 2, 2.0, false);
@@ -113,7 +113,7 @@ public class StateActionExperienceHandlerTest {
     @Test
     public void when_experienceIsEmpty_expect_TrainingBatchNotReady() {
         // Arrange
-        StateActionExperienceHandler sut = new StateActionExperienceHandler(buildConfiguration(5));
+        ObservationActionExperienceHandler sut = new ObservationActionExperienceHandler(buildConfiguration(5));
         sut.reset();
 
         // Act
@@ -126,7 +126,7 @@ public class StateActionExperienceHandlerTest {
     @Test
     public void when_experienceSizeIsGreaterOrEqualToThanBatchSize_expect_TrainingBatchIsReady() {
         // Arrange
-        StateActionExperienceHandler sut = new StateActionExperienceHandler(buildConfiguration(5));
+        ObservationActionExperienceHandler sut = new ObservationActionExperienceHandler(buildConfiguration(5));
         sut.reset();
         sut.addExperience(null, 1, 1.0, false);
         sut.addExperience(null, 2, 2.0, false);
@@ -144,7 +144,7 @@ public class StateActionExperienceHandlerTest {
     @Test
     public void when_experienceSizeIsSmallerThanBatchSizeButFinalObservationIsSet_expect_TrainingBatchIsReady() {
         // Arrange
-        StateActionExperienceHandler sut = new StateActionExperienceHandler(buildConfiguration(5));
+        ObservationActionExperienceHandler sut = new ObservationActionExperienceHandler(buildConfiguration(5));
         sut.reset();
         sut.addExperience(null, 1, 1.0, false);
         sut.addExperience(null, 2, 2.0, false);
@@ -160,7 +160,7 @@ public class StateActionExperienceHandlerTest {
     @Test
     public void when_experienceSizeIsZeroAndFinalObservationIsSet_expect_TrainingBatchIsNotReady() {
         // Arrange
-        StateActionExperienceHandler sut = new StateActionExperienceHandler(buildConfiguration(5));
+        ObservationActionExperienceHandler sut = new ObservationActionExperienceHandler(buildConfiguration(5));
         sut.reset();
         sut.setFinalObservation(null);
 

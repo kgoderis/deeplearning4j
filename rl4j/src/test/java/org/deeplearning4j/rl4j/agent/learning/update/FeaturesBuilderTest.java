@@ -22,8 +22,8 @@ package org.deeplearning4j.rl4j.agent.learning.update;
 
 import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.ObservationSource;
-import org.deeplearning4j.rl4j.experience.StateActionReward;
-import org.deeplearning4j.rl4j.experience.StateActionRewardState;
+import org.deeplearning4j.rl4j.experience.ObservationActionReward;
+import org.deeplearning4j.rl4j.experience.ObservationActionRewardObservation;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -55,12 +55,12 @@ public class FeaturesBuilderTest {
                 Nd4j.create(new double[] { 1.0 }).reshape(1, 1),
                 Nd4j.create(new double[] { 2.0, 3.0 }).reshape(1, 2),
         });
-        trainingBatch.add(new StateActionReward<Integer>(observation1, 0, 0.0, false));
+        trainingBatch.add(new ObservationActionReward<Integer>(observation1, 0, 0.0, false));
         Observation observation2 = new Observation(new INDArray[] {
                 Nd4j.create(new double[] { 4.0 }).reshape(1, 1),
                 Nd4j.create(new double[] { 5.0, 6.0 }).reshape(1, 2),
         });
-        trainingBatch.add(new StateActionReward<Integer>(observation2, 0, 0.0, false));
+        trainingBatch.add(new ObservationActionReward<Integer>(observation2, 0, 0.0, false));
         FeaturesBuilder sut = new FeaturesBuilder(false);
 
         // Act
@@ -80,19 +80,19 @@ public class FeaturesBuilderTest {
     @Test
     public void when_creatingFeaturesWithStreamAndNonRecurrent_expect_correctlyShapedFeatures() {
         // Arrange
-        List<StateActionRewardState<Integer>> trainingBatch = new ArrayList<StateActionRewardState<Integer>>();
+        List<ObservationActionRewardObservation<Integer>> trainingBatch = new ArrayList<ObservationActionRewardObservation<Integer>>();
         Observation observation1 = new Observation(new INDArray[] {
                 Nd4j.create(new double[] { 1.0 }).reshape(1, 1),
                 Nd4j.create(new double[] { 2.0, 3.0 }).reshape(1, 2),
         });
-        StateActionRewardState<Integer> stateActionRewardState1 = new StateActionRewardState<Integer>(null, 0, 0.0, false);
+        ObservationActionRewardObservation<Integer> stateActionRewardState1 = new ObservationActionRewardObservation<Integer>(null, 0, 0.0, false);
         stateActionRewardState1.setNextObservation(observation1);
         trainingBatch.add(stateActionRewardState1);
         Observation observation2 = new Observation(new INDArray[] {
                 Nd4j.create(new double[] { 4.0 }).reshape(1, 1),
                 Nd4j.create(new double[] { 5.0, 6.0 }).reshape(1, 2),
         });
-        StateActionRewardState<Integer> stateActionRewardState2 = new StateActionRewardState<Integer>(null, 0, 0.0, false);
+        ObservationActionRewardObservation<Integer> stateActionRewardState2 = new ObservationActionRewardObservation<Integer>(null, 0, 0.0, false);
         stateActionRewardState2.setNextObservation(observation2);
         trainingBatch.add(stateActionRewardState2);
 
@@ -120,12 +120,12 @@ public class FeaturesBuilderTest {
                 Nd4j.create(new double[] { 1.0, 2.0 }).reshape(1, 2, 1),
                 Nd4j.create(new double[] { 3.0, 4.0, 5.0, 6.0 }).reshape(1, 2, 2, 1),
         });
-        trainingBatch.add(new StateActionReward<Integer>(observation1, 0, 0.0, false));
+        trainingBatch.add(new ObservationActionReward<Integer>(observation1, 0, 0.0, false));
         Observation observation2 = new Observation(new INDArray[] {
                 Nd4j.create(new double[] { 7.0, 8.0 }).reshape(1, 2, 1),
                 Nd4j.create(new double[] { 9.0, 10.0, 11.0, 12.0 }).reshape(1, 2, 2, 1),
         });
-        trainingBatch.add(new StateActionReward<Integer>(observation2, 0, 0.0, false));
+        trainingBatch.add(new ObservationActionReward<Integer>(observation2, 0, 0.0, false));
 
         FeaturesBuilder sut = new FeaturesBuilder(true);
 
@@ -155,19 +155,19 @@ public class FeaturesBuilderTest {
     @Test
     public void when_creatingFeaturesWithStreamAndRecurrent_expect_correctlyShapedFeatures() {
         // Arrange
-        List<StateActionRewardState<Integer>> trainingBatch = new ArrayList<StateActionRewardState<Integer>>();
+        List<ObservationActionRewardObservation<Integer>> trainingBatch = new ArrayList<ObservationActionRewardObservation<Integer>>();
         Observation observation1 = new Observation(new INDArray[] {
                 Nd4j.create(new double[] { 1.0, 2.0 }).reshape(1, 2, 1),
                 Nd4j.create(new double[] { 3.0, 4.0, 5.0, 6.0 }).reshape(1, 2, 2, 1),
         });
-        StateActionRewardState<Integer> stateActionRewardState1 = new StateActionRewardState<Integer>(null, 0, 0.0, false);
+        ObservationActionRewardObservation<Integer> stateActionRewardState1 = new ObservationActionRewardObservation<Integer>(null, 0, 0.0, false);
         stateActionRewardState1.setNextObservation(observation1);
         trainingBatch.add(stateActionRewardState1);
         Observation observation2 = new Observation(new INDArray[] {
                 Nd4j.create(new double[] { 7.0, 8.0 }).reshape(1, 2, 1),
                 Nd4j.create(new double[] { 9.0, 10.0, 11.0, 12.0 }).reshape(1, 2, 2, 1),
         });
-        StateActionRewardState<Integer> stateActionRewardState2 = new StateActionRewardState<Integer>(null, 0, 0.0, false);
+        ObservationActionRewardObservation<Integer> stateActionRewardState2 = new ObservationActionRewardObservation<Integer>(null, 0, 0.0, false);
         stateActionRewardState2.setNextObservation(observation2);
         trainingBatch.add(stateActionRewardState2);
 
