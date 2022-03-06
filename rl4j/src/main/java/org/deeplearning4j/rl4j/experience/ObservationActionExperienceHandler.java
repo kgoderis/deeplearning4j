@@ -29,7 +29,7 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObservationActionExperienceHandler<OBSERVATION extends Observation, ACTION extends Action> implements ExperienceHandler<OBSERVATION, ACTION, ObservationActionReward<ACTION>> {
+public class ObservationActionExperienceHandler<OBSERVATION extends Observation, ACTION extends Action> implements ExperienceHandler<OBSERVATION, ACTION, ObservationActionReward<OBSERVATION,ACTION>> {
     private static final int DEFAULT_BATCH_SIZE = 8;
 
     private final int batchSize;
@@ -40,14 +40,14 @@ public class ObservationActionExperienceHandler<OBSERVATION extends Observation,
         this.batchSize = configuration.getBatchSize();
     }
 
-    private List<ObservationActionReward<ACTION>> observationActionRewards = new ArrayList<>();
+    private List<ObservationActionReward<OBSERVATION,ACTION>> observationActionRewards = new ArrayList<>();
 
     public void setFinalObservation(OBSERVATION observation) {
         isFinalObservationSet = true;
     }
 
     public void addExperience(OBSERVATION observation, ACTION action, double reward, boolean isTerminal) {
-        observationActionRewards.add(new ObservationActionReward<ACTION>(observation, action, reward, isTerminal));
+        observationActionRewards.add(new ObservationActionReward<OBSERVATION,ACTION>(observation, action, reward, isTerminal));
     }
 
     @Override
@@ -68,8 +68,8 @@ public class ObservationActionExperienceHandler<OBSERVATION extends Observation,
      * @return The list of experience elements
      */
     @Override
-    public List<ObservationActionReward<ACTION>> generateTrainingBatch() {
-        List<ObservationActionReward<ACTION>> result = observationActionRewards;
+    public List<ObservationActionReward<OBSERVATION,ACTION>> generateTrainingBatch() {
+        List<ObservationActionReward<OBSERVATION,ACTION>> result = observationActionRewards;
         observationActionRewards = new ArrayList<>();
 
         return result;

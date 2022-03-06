@@ -54,7 +54,7 @@ import org.nd4j.linalg.api.rng.Random;
 
 public abstract class BaseDQNAgentLearnerBuilder<OBSERVATION extends Observation, ACTION extends DiscreteAction, CONFIGURATION extends BaseDQNAgentLearnerBuilder.Configuration<OBSERVATION, ACTION>>
 		extends
-		BaseAgentLearnerBuilder<OBSERVATION, ACTION, ObservationActionRewardObservation<ACTION>, FeaturesLabels, CONFIGURATION> {
+		BaseAgentLearnerBuilder<OBSERVATION, ACTION, ObservationActionRewardObservation<OBSERVATION,ACTION>, FeaturesLabels, CONFIGURATION> {
 
 	private final Random rnd;
 
@@ -75,7 +75,7 @@ public abstract class BaseDQNAgentLearnerBuilder<OBSERVATION extends Observation
 	}
 
 	@Override
-	protected ExperienceHandler<OBSERVATION,ACTION, ObservationActionRewardObservation<ACTION>> buildExperienceHandler() {
+	protected ExperienceHandler<OBSERVATION,ACTION, ObservationActionRewardObservation<OBSERVATION,ACTION>> buildExperienceHandler() {
 		return new ReplayMemoryExperienceHandler(configuration.getExperienceHandlerConfiguration(), rnd);
 	}
 

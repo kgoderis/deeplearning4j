@@ -24,6 +24,7 @@ import lombok.NonNull;
 import org.deeplearning4j.rl4j.agent.learning.update.Features;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
+import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
 import org.deeplearning4j.rl4j.network.OutputNeuralNet;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -34,7 +35,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  * @author Alexandre Boulanger
  *
  */
-public abstract class BaseDQNAlgorithm<ACTION extends DiscreteAction> extends BaseTransitionTDAlgorithm<ACTION> {
+public abstract class BaseDQNAlgorithm<OBSERVATION extends Observation, ACTION extends DiscreteAction> extends BaseTransitionTDAlgorithm<OBSERVATION,ACTION> {
 
     private final OutputNeuralNet targetQNetwork;
 

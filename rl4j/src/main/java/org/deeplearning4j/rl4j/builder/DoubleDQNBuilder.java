@@ -52,7 +52,7 @@ public class DoubleDQNBuilder<OBSERVATION extends Observation, ACTION extends Di
 	}
 
 	@Override
-	protected UpdateAlgorithm<FeaturesLabels, ObservationActionRewardObservation<ACTION>> buildUpdateAlgorithm() {
+	protected UpdateAlgorithm<FeaturesLabels, ObservationActionRewardObservation<OBSERVATION,ACTION>> buildUpdateAlgorithm() {
 		return new DoubleDQN(networks.getThreadCurrentNetwork(), networks.getTargetNetwork(), getEnvironment().getActionSpace(),
 				configuration.getUpdateAlgorithmConfiguration());
 	}

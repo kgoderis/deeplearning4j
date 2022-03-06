@@ -30,6 +30,7 @@ import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.agent.learning.update.Gradients;
 import org.deeplearning4j.rl4j.environment.action.Action;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
+import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.CommonLabelNames;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
@@ -38,8 +39,8 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.util.List;
 
-public class AdvantageActorCritic<ACTION extends Action>
-		implements UpdateAlgorithm<Gradients, ObservationActionReward<ACTION>> {
+public class AdvantageActorCritic<OBSERVATION extends Observation, ACTION extends Action>
+		implements UpdateAlgorithm<Gradients, ObservationActionReward<OBSERVATION,ACTION>> {
 
 	private final TrainableNeuralNet threadCurrent;
 	private final ActionSpace<ACTION> actionSpace;
@@ -63,14 +64,14 @@ public class AdvantageActorCritic<ACTION extends Action>
 	}
 
 	@Override
-	public Gradients compute(List<ObservationActionReward<ACTION>> trainingBatch) {
+	public Gradients compute(List<ObservationActionReward<OBSERVATION,ACTION>> trainingBatch) {
 		int size = trainingBatch.size();
 
 		Features features = featuresBuilder.build(trainingBatch);
 		INDArray values = algorithmHelper.createValueLabels(size);
 		INDArray policy = algorithmHelper.createPolicyLabels(size);
 
-		ObservationActionReward<ACTION> observationActionReward = trainingBatch.get(size - 1);
+		ObservationActionReward<OBSERVATION,ACTION> observationActionReward = trainingBatch.get(size - 1);
 		double value;
 		if (observationActionReward.isTerminal()) {
 			value = 0;

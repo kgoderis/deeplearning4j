@@ -30,7 +30,7 @@ import org.nd4j.linalg.factory.Nd4j;
 
 import java.util.List;
 
-public class NonRecurrentNStepQLearningHelper<ACTION extends DiscreteAction> extends NStepQLearningHelper<ACTION> {
+public class NonRecurrentNStepQLearningHelper<OBSERVATION extends Observation, ACTION extends DiscreteAction> extends NStepQLearningHelper<OBSERVATION,ACTION> {
     private final int actionSpaceSize;
 
     public NonRecurrentNStepQLearningHelper(int actionSpaceSize) {
@@ -53,7 +53,7 @@ public class NonRecurrentNStepQLearningHelper<ACTION extends DiscreteAction> ext
     }
 
     @Override
-    public INDArray getTargetExpectedQValuesOfLast(OutputNeuralNet target, List<ObservationActionReward<ACTION>> trainingBatch, Features features) {
+    public INDArray getTargetExpectedQValuesOfLast(OutputNeuralNet target, List<ObservationActionReward<OBSERVATION, ACTION>> trainingBatch, Features features) {
         Observation lastObservation = trainingBatch.get(trainingBatch.size() - 1).getObservation();
         return target.output(lastObservation)
                 .get(CommonOutputNames.QValues);

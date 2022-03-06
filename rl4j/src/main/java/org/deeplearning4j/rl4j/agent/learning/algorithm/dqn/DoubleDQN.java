@@ -23,13 +23,14 @@ package org.deeplearning4j.rl4j.agent.learning.algorithm.dqn;
 import org.deeplearning4j.rl4j.agent.learning.update.Features;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
+import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.network.OutputNeuralNet;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
 import lombok.NonNull;
 
-public class DoubleDQN<ACTION extends DiscreteAction> extends BaseDQNAlgorithm<ACTION> {
+public class DoubleDQN<OBSERVATION extends Observation, ACTION extends DiscreteAction> extends BaseDQNAlgorithm<OBSERVATION, ACTION> {
 
 	private static final int ACTION_DIMENSION_IDX = 1;
 

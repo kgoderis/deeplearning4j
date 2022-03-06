@@ -73,7 +73,7 @@ public class NStepQLearningBuilder<OBSERVATION extends Observation, ACTION exten
 	}
 
 	@Override
-	protected UpdateAlgorithm<Gradients, ObservationActionReward<ACTION>> buildUpdateAlgorithm() {
+	protected UpdateAlgorithm<Gradients, ObservationActionReward<OBSERVATION, ACTION>> buildUpdateAlgorithm() {
 		return new NStepQLearning(networks.getThreadCurrentNetwork(), networks.getTargetNetwork(),
 				getEnvironment().getActionSpace(), configuration.getNstepQLearningConfiguration());
 	}

@@ -30,6 +30,7 @@ import org.deeplearning4j.rl4j.agent.learning.update.FeaturesBuilder;
 import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
+import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.experience.ObservationActionRewardObservation;
 import org.deeplearning4j.rl4j.network.CommonLabelNames;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
@@ -38,7 +39,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.util.List;
 
-public abstract class BaseTransitionTDAlgorithm<ACTION extends DiscreteAction> implements UpdateAlgorithm<FeaturesLabels, ObservationActionRewardObservation<ACTION>> {
+public abstract class BaseTransitionTDAlgorithm<OBSERVATION extends Observation, ACTION extends DiscreteAction> implements UpdateAlgorithm<FeaturesLabels, ObservationActionRewardObservation<OBSERVATION,ACTION>> {
 
     protected final OutputNeuralNet qNetwork;
     protected final ActionSpace<ACTION> actionSpace;
@@ -84,7 +85,7 @@ public abstract class BaseTransitionTDAlgorithm<ACTION extends DiscreteAction> i
     protected abstract double computeTarget(int batchIdx, double reward, boolean isTerminal);
 
     @Override
-    public FeaturesLabels compute(List<ObservationActionRewardObservation<ACTION>> trainingBatch) {
+    public FeaturesLabels compute(List<ObservationActionRewardObservation<OBSERVATION,ACTION>> trainingBatch) {
         int size = trainingBatch.size();
 
         Features features = featuresBuilder.build(trainingBatch);
@@ -94,7 +95,7 @@ public abstract class BaseTransitionTDAlgorithm<ACTION extends DiscreteAction> i
 
         INDArray updatedQValues = qNetwork.output(features).get(CommonOutputNames.QValues);
         for (int i = 0; i < size; ++i) {
-            ObservationActionRewardObservation<ACTION> observationActionRewardObservation = trainingBatch.get(i);
+            ObservationActionRewardObservation<OBSERVATION,ACTION> observationActionRewardObservation = trainingBatch.get(i);
             double yTarget = computeTarget(i, observationActionRewardObservation.getReward(), observationActionRewardObservation.isTerminal());
 
             if(isClamped) {

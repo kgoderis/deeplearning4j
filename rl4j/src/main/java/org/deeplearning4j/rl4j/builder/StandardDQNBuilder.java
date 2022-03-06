@@ -53,7 +53,7 @@ public class StandardDQNBuilder<OBSERVATION extends Observation, ACTION extends 
 	}
 
 	@Override
-	protected UpdateAlgorithm<FeaturesLabels, ObservationActionRewardObservation<ACTION>> buildUpdateAlgorithm() {
+	protected UpdateAlgorithm<FeaturesLabels, ObservationActionRewardObservation<OBSERVATION,ACTION>> buildUpdateAlgorithm() {
 		return new StandardDQN(networks.getThreadCurrentNetwork(), networks.getTargetNetwork(),
 				getEnvironment().getActionSpace(), configuration.getUpdateAlgorithmConfiguration());
 	}

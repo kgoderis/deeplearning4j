@@ -30,6 +30,7 @@ import org.deeplearning4j.rl4j.agent.learning.update.FeaturesLabels;
 import org.deeplearning4j.rl4j.agent.learning.update.Gradients;
 import org.deeplearning4j.rl4j.environment.action.DiscreteAction;
 import org.deeplearning4j.rl4j.environment.action.space.ActionSpace;
+import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.experience.ObservationActionReward;
 import org.deeplearning4j.rl4j.network.CommonLabelNames;
 import org.deeplearning4j.rl4j.network.CommonOutputNames;
@@ -40,12 +41,12 @@ import org.nd4j.linalg.factory.Nd4j;
 
 import java.util.List;
 
-public class NStepQLearning<ACTION extends DiscreteAction> implements UpdateAlgorithm<Gradients, ObservationActionReward<ACTION>> {
+public class NStepQLearning<OBSERVATION extends Observation, ACTION extends DiscreteAction> implements UpdateAlgorithm<Gradients, ObservationActionReward<OBSERVATION, ACTION>> {
 
     private final TrainableNeuralNet threadCurrent;
     private final OutputNeuralNet target;
     private final double gamma;
-    private final NStepQLearningHelper<ACTION> algorithmHelper;
+    private final NStepQLearningHelper<OBSERVATION,ACTION> algorithmHelper;
     private final FeaturesBuilder featuresBuilder;
     private final ActionSpace<ACTION> actionSpace;
 
@@ -64,17 +65,17 @@ public class NStepQLearning<ACTION extends DiscreteAction> implements UpdateAlgo
         this.actionSpace = actionSpace;
 
         algorithmHelper = threadCurrent.isRecurrent()
-                ? new RecurrentNStepQLearningHelper<ACTION>(actionSpace.getActionSpaceSize())
-                : new NonRecurrentNStepQLearningHelper<ACTION>(actionSpace.getActionSpaceSize());
+                ? new RecurrentNStepQLearningHelper<OBSERVATION,ACTION>(actionSpace.getActionSpaceSize())
+                : new NonRecurrentNStepQLearningHelper<OBSERVATION, ACTION>(actionSpace.getActionSpaceSize());
 
         featuresBuilder = new FeaturesBuilder(threadCurrent.isRecurrent());
     }
 
     @Override
-    public Gradients compute(List<ObservationActionReward<ACTION>> trainingBatch) {
+    public Gradients compute(List<ObservationActionReward<OBSERVATION,ACTION>> trainingBatch) {
         int size = trainingBatch.size();
 
-        ObservationActionReward<ACTION> observationActionReward = trainingBatch.get(size - 1);
+        ObservationActionReward<OBSERVATION,ACTION> observationActionReward = trainingBatch.get(size - 1);
         Features features = featuresBuilder.build(trainingBatch);
         INDArray labels = algorithmHelper.createLabels(size);
 

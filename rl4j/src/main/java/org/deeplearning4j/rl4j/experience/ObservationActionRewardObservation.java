@@ -29,10 +29,10 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.deeplearning4j.rl4j.environment.observation.ObservationSource;
 
 @Data
-public class ObservationActionRewardObservation<ACTION extends Action> implements ObservationSource {
+public class ObservationActionRewardObservation<OBSERVATION extends Observation, ACTION extends Action> implements ObservationSource {
 
     @Getter
-    private final Observation observation;
+    private final OBSERVATION observation;
 
     @Getter
     private final ACTION action;
@@ -46,7 +46,7 @@ public class ObservationActionRewardObservation<ACTION extends Action> implement
     @Getter @Setter
     Observation nextObservation;
 
-    public ObservationActionRewardObservation(Observation observation, ACTION action, double reward, boolean isTerminal) {
+    public ObservationActionRewardObservation(OBSERVATION observation, ACTION action, double reward, boolean isTerminal) {
         this.observation = observation;
         this.action = action;
         this.reward = reward;
@@ -54,7 +54,7 @@ public class ObservationActionRewardObservation<ACTION extends Action> implement
         this.nextObservation = null;
     }
 
-    private ObservationActionRewardObservation(Observation observation, ACTION action, double reward, boolean isTerminal, Observation nextObservation) {
+    private ObservationActionRewardObservation(OBSERVATION observation, ACTION action, double reward, boolean isTerminal, Observation nextObservation) {
         this.observation = observation;
         this.action = action;
         this.reward = reward;
@@ -65,10 +65,10 @@ public class ObservationActionRewardObservation<ACTION extends Action> implement
     /**
      * @return a duplicate of this instance
      */
-    public ObservationActionRewardObservation<ACTION> dup() {
-        Observation dupObservation = observation.dup();
-        Observation nextObs = nextObservation.dup();
+    public ObservationActionRewardObservation<OBSERVATION,ACTION> dup() {
+        OBSERVATION dupObservation = (OBSERVATION) observation.dup();
+        OBSERVATION nextObs = (OBSERVATION) nextObservation.dup();
 
-        return new ObservationActionRewardObservation<ACTION>(dupObservation, action, reward, isTerminal, nextObs);
+        return new ObservationActionRewardObservation<OBSERVATION,ACTION>(dupObservation, action, reward, isTerminal, nextObs);
     }
 }

@@ -41,7 +41,7 @@ import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
 import org.deeplearning4j.rl4j.policy.EpsGreedy;
 
 public abstract class BaseAsyncAgentLearnerBuilder<OBSERVATION extends Observation, ACTION extends Action, CONFIGURATION extends BaseAsyncAgentLearnerBuilder.Configuration<OBSERVATION, ACTION>>
-		extends BaseAgentLearnerBuilder<OBSERVATION, ACTION, ObservationActionReward<ACTION>, Gradients, CONFIGURATION> {
+		extends BaseAgentLearnerBuilder<OBSERVATION, ACTION, ObservationActionReward<OBSERVATION, ACTION>, Gradients, CONFIGURATION> {
 
 	private final AsyncSharedNetworksUpdateHandler asyncSharedNetworksUpdateHandler;
 
@@ -53,7 +53,7 @@ public abstract class BaseAsyncAgentLearnerBuilder<OBSERVATION extends Observati
 	}
 
 	@Override
-	protected ExperienceHandler<OBSERVATION,ACTION, ObservationActionReward<ACTION>> buildExperienceHandler() {
+	protected ExperienceHandler<OBSERVATION,ACTION, ObservationActionReward<OBSERVATION,ACTION>> buildExperienceHandler() {
 		return new ObservationActionExperienceHandler<OBSERVATION,ACTION>(configuration.getExperienceHandlerConfiguration());
 	}
 

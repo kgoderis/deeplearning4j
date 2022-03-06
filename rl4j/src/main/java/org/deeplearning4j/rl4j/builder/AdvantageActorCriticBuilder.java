@@ -63,8 +63,8 @@ public class AdvantageActorCriticBuilder<OBSERVATION extends Observation, ACTION
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	protected UpdateAlgorithm<Gradients, ObservationActionReward<ACTION>> buildUpdateAlgorithm() {
-		return new AdvantageActorCritic<ACTION>(networks.getThreadCurrentNetwork(), getEnvironment().getActionSpace(),
+	protected UpdateAlgorithm<Gradients, ObservationActionReward<OBSERVATION,ACTION>> buildUpdateAlgorithm() {
+		return new AdvantageActorCritic<OBSERVATION, ACTION>(networks.getThreadCurrentNetwork(), getEnvironment().getActionSpace(),
 				configuration.getAdvantageActorCriticConfiguration());
 	}
 

@@ -37,13 +37,13 @@ import java.util.List;
 
 @EqualsAndHashCode
 public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTION extends Action>
-		implements ExperienceHandler<OBSERVATION, ACTION, ObservationActionRewardObservation<ACTION>> {
+		implements ExperienceHandler<OBSERVATION, ACTION, ObservationActionRewardObservation<OBSERVATION,ACTION>> {
 	private static final int DEFAULT_MAX_REPLAY_MEMORY_SIZE = 150000;
 	private static final int DEFAULT_BATCH_SIZE = 32;
 	private final int batchSize;
     final private Random random;
-    private CircularFifoQueue<ObservationActionRewardObservation<ACTION>> storage;
-	private ObservationActionRewardObservation<ACTION> pendingObservationActionRewardObservation;
+    private CircularFifoQueue<ObservationActionRewardObservation<OBSERVATION,ACTION>> storage;
+	private ObservationActionRewardObservation<OBSERVATION, ACTION> pendingObservationActionRewardObservation;
 
 	public ReplayMemoryExperienceHandler(Configuration configuration, Random random) {
         this.batchSize = configuration.batchSize;
@@ -77,12 +77,12 @@ public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTI
 	 *         memory is unchanged after the call.
 	 */
 	@Override
-	public List<ObservationActionRewardObservation<ACTION>> generateTrainingBatch() {
+	public List<ObservationActionRewardObservation<OBSERVATION,ACTION>> generateTrainingBatch() {
 		return generateTrainingBatch(batchSize);
 	}
 	
-	public List<ObservationActionRewardObservation<ACTION>> generateTrainingBatch(int size) {
-        ArrayList<ObservationActionRewardObservation<ACTION>> batch = new ArrayList<>(size);
+	public List<ObservationActionRewardObservation<OBSERVATION,ACTION>> generateTrainingBatch(int size) {
+        ArrayList<ObservationActionRewardObservation<OBSERVATION,ACTION>> batch = new ArrayList<>(size);
         int storageSize = storage.size();
         int actualBatchSize = Math.min(storageSize, size);
 
@@ -98,7 +98,7 @@ public class ReplayMemoryExperienceHandler<OBSERVATION extends Observation, ACTI
         }
 
         for (int i = 0; i < actualBatchSize; i ++) {
-            ObservationActionRewardObservation<ACTION> trans = storage.get(actualIndex[i]);
+            ObservationActionRewardObservation<OBSERVATION,ACTION> trans = storage.get(actualIndex[i]);
             batch.add(trans.dup());
         }
 
