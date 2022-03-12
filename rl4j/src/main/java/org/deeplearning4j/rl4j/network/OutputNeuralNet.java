@@ -39,13 +39,6 @@ public interface OutputNeuralNet {
 
     /**
      * Compute the output for the supplied batch.
-     * @param batch
-     * @return The ouptut of the network
-     */
-    NeuralNetOutput output(INDArray batch); // FIXME: Remove once legacy classes are gone
-
-    /**
-     * Compute the output for the supplied batch.
      * @param features A {@link Features} instance
      * @return The ouptut of the network
      */
