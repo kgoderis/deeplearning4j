@@ -34,7 +34,9 @@ public class DoubleDQN<OBSERVATION extends Observation, ACTION extends DiscreteA
 
 	private static final int ACTION_DIMENSION_IDX = 1;
 
-	// In literature, this corresponds to: max<sub>a</sub> Q(s<sub>t+1</sub>, a)
+	/**
+	 *  In literature, this corresponds to: max<sub>a</sub> Q(s<sub>t+1</sub>, a)
+	 */
 	private INDArray maxActionsFromQNetworkNextObservation;
 
 	public DoubleDQN(OutputNeuralNet qNetwork, OutputNeuralNet targetQNetwork, @NonNull ActionSpace<ACTION> actionSpace,

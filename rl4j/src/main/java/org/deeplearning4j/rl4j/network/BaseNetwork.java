@@ -115,24 +115,12 @@ public abstract class BaseNetwork<NET extends BaseNetwork>
     /**
      * Compute the output for a batch.
      * Note: The current state is ignored if used with a recurrent network
-     * @param batch
-     * @return a {@link NeuralNetOutput} instance
-     */
-    public NeuralNetOutput output(INDArray batch) {
-        // TODO: Remove when legacy code is gone
-        throw new NotImplementedException("output(INDArray): should use output(Observation) or output(Features)");
-    }
-
-    /**
-     * Compute the output for a batch.
-     * Note: The current state is ignored if used with a recurrent network
      * @param features
      * @return a {@link NeuralNetOutput} instance
      */
     public NeuralNetOutput output(Features features) {
         return packageResult(networkHandler.batchOutput(features));
     }
-
 
     /**
      * Resets the cache and the state of the network

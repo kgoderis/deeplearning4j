@@ -34,8 +34,9 @@ public class StandardDQN<OBSERVATION extends Observation, ACTION extends Discret
 
 	private static final int ACTION_DIMENSION_IDX = 1;
 
-	// In literature, this corresponds to: max<sub>a</sub>
-	// Q<sub>tar</sub>(s<sub>t+1</sub>, a)
+	/**
+	 *  In literature, this corresponds to: max<sub>a</sub>Q<sub>tar</sub>(s<sub>t+1</sub>, a)
+	 */
 	private INDArray maxActionsFromQTargetNextObservation;
 
 	public StandardDQN(OutputNeuralNet qNetwork, OutputNeuralNet targetQNetwork,
