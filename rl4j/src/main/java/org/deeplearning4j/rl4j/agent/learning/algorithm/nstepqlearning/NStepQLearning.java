@@ -91,14 +91,15 @@ public class NStepQLearning<OBSERVATION extends Observation, ACTION extends Disc
             observationActionReward = trainingBatch.get(i);
 
             r = observationActionReward.getReward() + gamma * r;
+            
             INDArray expectedQValues = threadCurrent.output(observationActionReward.getObservation()).get(CommonOutputNames.QValues);
             expectedQValues = expectedQValues.putScalar(actionSpace.getIndex(observationActionReward.getAction()), r);
-
             algorithmHelper.setLabels(labels, i, expectedQValues);
         }
 
         FeaturesLabels featuresLabels = new FeaturesLabels(features);
         featuresLabels.putLabels(CommonLabelNames.QValues, labels);
+        
         return threadCurrent.computeGradients(featuresLabels);
     }
 

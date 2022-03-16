@@ -67,31 +67,31 @@ public class AdvantageActorCritic<OBSERVATION extends Observation, ACTION extend
 	public Gradients compute(List<ObservationActionReward<OBSERVATION,ACTION>> trainingBatch) {
 		int size = trainingBatch.size();
 
+		ObservationActionReward<OBSERVATION,ACTION> observationActionReward = trainingBatch.get(size - 1);
 		Features features = featuresBuilder.build(trainingBatch);
 		INDArray values = algorithmHelper.createValueLabels(size);
 		INDArray policy = algorithmHelper.createPolicyLabels(size);
 
-		ObservationActionReward<OBSERVATION,ACTION> observationActionReward = trainingBatch.get(size - 1);
-		double value;
+		double r;
 		if (observationActionReward.isTerminal()) {
-			value = 0;
+			r = 0;
 		} else {
-			value = threadCurrent.output(trainingBatch.get(size - 1).getObservation())
+			r = threadCurrent.output(trainingBatch.get(size - 1).getObservation())
 					.get(CommonOutputNames.ActorCritic.Value).getDouble(0);
 		}
 
 		for (int i = size - 1; i >= 0; --i) {
 			observationActionReward = trainingBatch.get(i);
 
-			value = observationActionReward.getReward() + gamma * value;
+			r = observationActionReward.getReward() + gamma * r;
 
 			// the critic
-			values.putScalar(i, value);
+			values.putScalar(i, r);
 
 			// the actor
-			double expectedV = threadCurrent.output(trainingBatch.get(i).getObservation())
+			double expectedValue = threadCurrent.output(trainingBatch.get(i).getObservation())
 					.get(CommonOutputNames.ActorCritic.Value).getDouble(0);
-			double advantage = value - expectedV;
+			double advantage = r - expectedValue;
 			algorithmHelper.setPolicy(policy, i, actionSpace.getIndex(observationActionReward.getAction()), advantage);
 		}
 
