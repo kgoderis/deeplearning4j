@@ -55,7 +55,7 @@ public class NStepQLearningBuilder<OBSERVATION extends Observation, ACTION exten
 			Builder<HistoryProcessor<OBSERVATION>> historyProcessorBuilder, Random rnd) {
 		super(configuration, neuralNet, environmentBuilder, transformProcessBuilder, historyProcessorBuilder);
 
-		// TODO: remove once RNN networks states are stored in the experience elements
+		// TODO: remove once RNN neuralNetHandler states are stored in the experience elements
 		Preconditions.checkArgument(
 				!neuralNet.isRecurrent()
 						|| configuration.getExperienceHandlerConfiguration().getBatchSize() == Integer.MAX_VALUE,
@@ -67,20 +67,20 @@ public class NStepQLearningBuilder<OBSERVATION extends Observation, ACTION exten
 	@Override
 	protected Policy<OBSERVATION, ACTION> buildPolicy() {
 		NeuralNetPolicy<OBSERVATION, ACTION> greedyPolicy = new DQNPolicy<OBSERVATION, ACTION>(
-				networks.getThreadCurrentNetwork(), getEnvironment().getActionSpace());
+				neuralNetHandler.getThreadCurrentNetwork(), getEnvironment().getActionSpace());
 		return new EpsGreedy(greedyPolicy, getEnvironment().getActionSpace(), configuration.getPolicyConfiguration(),
 				rnd);
 	}
 
 	@Override
 	protected UpdateAlgorithm<Gradients, ObservationActionReward<OBSERVATION, ACTION>> buildUpdateAlgorithm() {
-		return new NStepQLearning(networks.getThreadCurrentNetwork(), networks.getTargetNetwork(),
+		return new NStepQLearning(neuralNetHandler.getThreadCurrentNetwork(), neuralNetHandler.getTargetNetwork(),
 				getEnvironment().getActionSpace(), configuration.getNstepQLearningConfiguration());
 	}
 
 	@Override
 	protected AsyncSharedNetworksUpdateHandler buildAsyncSharedNetworksUpdateHandler() {
-		return new AsyncSharedNetworksUpdateHandler(networks.getGlobalCurrentNetwork(), networks.getTargetNetwork(),
+		return new AsyncSharedNetworksUpdateHandler(neuralNetHandler.getGlobalCurrentNetwork(), neuralNetHandler.getTargetNetwork(),
 				configuration.getNeuralNetUpdaterConfiguration());
 	}
 

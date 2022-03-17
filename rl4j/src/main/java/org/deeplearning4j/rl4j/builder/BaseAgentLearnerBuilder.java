@@ -51,7 +51,7 @@ public abstract class BaseAgentLearnerBuilder<OBSERVATION extends Observation, A
     private final Builder<Environment<ACTION>> environmentBuilder;
     private final Builder<TransformProcess<OBSERVATION>> transformProcessBuilder;
     private final Builder<HistoryProcessor<OBSERVATION>> historyProcessorBuilder;
-    protected final NetworkHandler networks;
+    protected final AlgorithmNetworkHandler neuralNetHandler;
 
     protected int createdAgentLearnerCount;
 
@@ -65,7 +65,7 @@ public abstract class BaseAgentLearnerBuilder<OBSERVATION extends Observation, A
         this.transformProcessBuilder = transformProcessBuilder;
         this.historyProcessorBuilder = historyProcessorBuilder;
 
-        this.networks = configuration.isAsynchronous()
+        this.neuralNetHandler = configuration.isAsynchronous()
                 ? new AsyncNetworkHandler(neuralNet)
                 : new SyncNetworkHandler(neuralNet);
     }
@@ -112,7 +112,7 @@ public abstract class BaseAgentLearnerBuilder<OBSERVATION extends Observation, A
     }
 
     protected void resetForNewBuild() {
-        networks.resetForNewBuild();
+        neuralNetHandler.resetForNewBuild();
         environment = environmentBuilder.build();
         transformProcess = transformProcessBuilder.build();
         historyProcessor = historyProcessorBuilder.build();

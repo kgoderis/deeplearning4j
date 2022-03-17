@@ -26,7 +26,7 @@ import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
 public class AsyncGradientsNeuralNetUpdater extends BaseAsyncNeuralNetUpdater<Gradients> {
     /**
      * @param threadCurrent The thread-current network
-     * @param sharedNetworksUpdateHandler An instance shared among all threads that updates the shared networks
+     * @param sharedNetworksUpdateHandler An instance shared among all threads that updates the shared neuralNetHandler
      */
     public AsyncGradientsNeuralNetUpdater(TrainableNeuralNet threadCurrent,
                                           AsyncSharedNetworksUpdateHandler sharedNetworksUpdateHandler) {
@@ -34,7 +34,7 @@ public class AsyncGradientsNeuralNetUpdater extends BaseAsyncNeuralNetUpdater<Gr
     }
 
     /**
-     * Perform the necessary updates to the networks.
+     * Perform the necessary updates to the neuralNetHandler.
      * @param gradients A {@link Gradients} that will be used to update the network.
      */
     @Override

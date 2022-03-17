@@ -50,7 +50,7 @@ public class CompoundNetworkHandler extends PersistentNetworkHandler {
 	private boolean recurrent;
 
 	/**
-	 * @param networkHandlers All networks to be used in this instance.
+	 * @param networkHandlers All neuralNetHandler to be used in this instance.
 	 */
 	public CompoundNetworkHandler(NetworkHandler... networkHandlers) {
 		this.networkHandlers = networkHandlers;

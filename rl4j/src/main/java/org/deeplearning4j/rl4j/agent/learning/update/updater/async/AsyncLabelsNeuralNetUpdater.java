@@ -28,7 +28,7 @@ public class AsyncLabelsNeuralNetUpdater extends BaseAsyncNeuralNetUpdater<Featu
 
     /**
      * @param threadCurrent The thread-current network
-     * @param sharedNetworksUpdateHandler An instance shared among all threads that updates the shared networks
+     * @param sharedNetworksUpdateHandler An instance shared among all threads that updates the shared neuralNetHandler
      */
     public AsyncLabelsNeuralNetUpdater(TrainableNeuralNet threadCurrent,
                                        AsyncSharedNetworksUpdateHandler sharedNetworksUpdateHandler) {
@@ -36,7 +36,7 @@ public class AsyncLabelsNeuralNetUpdater extends BaseAsyncNeuralNetUpdater<Featu
     }
 
     /**
-     * Perform the necessary updates to the networks.
+     * Perform the necessary updates to the neuralNetHandler.
      * @param featuresLabels A {@link FeaturesLabels} that will be used to update the network.
      */
     @Override

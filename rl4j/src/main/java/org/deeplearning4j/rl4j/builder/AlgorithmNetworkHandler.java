@@ -21,7 +21,7 @@ package org.deeplearning4j.rl4j.builder;
 
 import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
 
-public interface NetworkHandler {
+public interface AlgorithmNetworkHandler {
     /**
      * @return The global shared target parameters &theta;<sup>&ndash;</sup>
      */

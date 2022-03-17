@@ -63,14 +63,14 @@ public abstract class BaseDQNAgentLearnerBuilder<OBSERVATION extends Observation
 			Builder<TransformProcess<OBSERVATION>> transformProcessBuilder, Builder<HistoryProcessor<OBSERVATION>> historyProcessorBuilder, Random rnd) {
 		super(configuration, neuralNet, environmentBuilder, transformProcessBuilder,historyProcessorBuilder);
 
-		// TODO: remove once RNN networks states are supported with BaseDQN
-		Preconditions.checkArgument(!neuralNet.isRecurrent(), "Recurrent networks are not yet supported with BaseDQN.");
+		// TODO: remove once RNN neuralNetHandler states are supported with BaseDQN
+		Preconditions.checkArgument(!neuralNet.isRecurrent(), "Recurrent neuralNetHandler are not yet supported with BaseDQN.");
 		this.rnd = rnd;
 	}
 
 	@Override
 	protected Policy<OBSERVATION,ACTION> buildPolicy() {
-		NeuralNetPolicy<OBSERVATION,ACTION> greedyPolicy = new DQNPolicy<OBSERVATION,ACTION>(networks.getThreadCurrentNetwork(),getEnvironment().getActionSpace());
+		NeuralNetPolicy<OBSERVATION,ACTION> greedyPolicy = new DQNPolicy<OBSERVATION,ACTION>(neuralNetHandler.getThreadCurrentNetwork(),getEnvironment().getActionSpace());
 		return new EpsGreedy(greedyPolicy, getEnvironment().getActionSpace(), configuration.getPolicyConfiguration(), rnd);
 	}
 
@@ -85,7 +85,7 @@ public abstract class BaseDQNAgentLearnerBuilder<OBSERVATION extends Observation
 			throw new UnsupportedOperationException("Only synchronized use is currently supported");
 		}
 
-		return new SyncLabelsNeuralNetUpdater(networks.getThreadCurrentNetwork(), networks.getTargetNetwork(),
+		return new SyncLabelsNeuralNetUpdater(neuralNetHandler.getThreadCurrentNetwork(), neuralNetHandler.getTargetNetwork(),
 				configuration.getNeuralNetUpdaterConfiguration());
 	}
 

@@ -99,5 +99,4 @@ public class ActorCriticFactoryCompGraphStdDense implements GraphFactory {
 
         return new ComputationGraph[] { model };
     }
-
 }

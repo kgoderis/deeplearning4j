@@ -79,33 +79,4 @@ public class DQNFactoryStdConv implements NetworkFactory {
 
         return new NeuralNetwork[] { model };
     }
-
-//    @AllArgsConstructor
-//    @Builder
-//    @Value
-//    public static class Configuration {
-//
-//        double learningRate;
-//        double l2;
-//        IUpdater updater;
-//        TrainingListener[] listeners;
-//
-//        /**
-//         * Converts the deprecated Configuration to the new NetworkConfiguration format
-//         */
-//        public NetworkConfiguration toNetworkConfiguration() {
-//            NetworkConfiguration.NetworkConfigurationBuilder builder = NetworkConfiguration.builder()
-//                    .learningRate(learningRate)
-//                    .l2(l2)
-//                    .updater(updater);
-//
-//            if (listeners != null) {
-//                builder.listeners(Arrays.asList(listeners));
-//            }
-//
-//            return builder.build();
-//
-//        }
-//    }
-
 }

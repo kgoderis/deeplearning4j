@@ -58,19 +58,19 @@ public class AdvantageActorCriticBuilder<OBSERVATION extends Observation, ACTION
 	@Override
 	protected Policy<OBSERVATION, ACTION> buildPolicy() {
 		return (Policy<OBSERVATION, ACTION>) ACPolicy.builder().actionSpace(getEnvironment().getActionSpace())
-				.neuralNet(networks.getThreadCurrentNetwork()).isTraining(true).rnd(rnd).build();
+				.neuralNet(neuralNetHandler.getThreadCurrentNetwork()).isTraining(true).rnd(rnd).build();
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected UpdateAlgorithm<Gradients, ObservationActionReward<OBSERVATION,ACTION>> buildUpdateAlgorithm() {
-		return new AdvantageActorCritic<OBSERVATION, ACTION>(networks.getThreadCurrentNetwork(), getEnvironment().getActionSpace(),
+		return new AdvantageActorCritic<OBSERVATION, ACTION>(neuralNetHandler.getThreadCurrentNetwork(), getEnvironment().getActionSpace(),
 				configuration.getAdvantageActorCriticConfiguration());
 	}
 
 	@Override
 	protected AsyncSharedNetworksUpdateHandler buildAsyncSharedNetworksUpdateHandler() {
-		return new AsyncSharedNetworksUpdateHandler(networks.getGlobalCurrentNetwork(),
+		return new AsyncSharedNetworksUpdateHandler(neuralNetHandler.getGlobalCurrentNetwork(),
 				configuration.getNeuralNetUpdaterConfiguration());
 	}
 

@@ -121,36 +121,4 @@ public class ActorCriticFactorySeparateStdDense implements NetworkFactory {
 
         return new NeuralNetwork[] { model, model2 };
     }
-
-//    @AllArgsConstructor
-//    @Value
-//    @Builder
-//    @Deprecated
-//    public static class Configuration {
-//
-//        int numLayer;
-//        int numHiddenNodes;
-//        double l2;
-//        IUpdater updater;
-//        TrainingListener[] listeners;
-//        boolean useLSTM;
-//
-//        public ActorCriticDenseNetworkConfiguration toNetworkConfiguration() {
-//            ActorCriticDenseNetworkConfigurationBuilder builder = ActorCriticDenseNetworkConfiguration.builder()
-//                    .numHiddenNodes(numHiddenNodes)
-//                    .numLayers(numLayer)
-//                    .l2(l2)
-//                    .updater(updater)
-//                    .useLSTM(useLSTM);
-//
-//            if (listeners != null) {
-//                builder.listeners(Arrays.asList(listeners));
-//            }
-//
-//            return builder.build();
-//
-//        }
-//    }
-
-
 }

@@ -88,35 +88,4 @@ public class DQNFactoryStdDense implements NetworkFactory {
         
         return new NeuralNetwork[] { model };
     }
-//
-//    @AllArgsConstructor
-//    @Value
-//    @Builder
-//    @Deprecated
-//    public static class Configuration {
-//
-//        int numLayer;
-//        int numHiddenNodes;
-//        double l2;
-//        IUpdater updater;
-//        TrainingListener[] listeners;
-//
-//        /**
-//         * Converts the deprecated Configuration to the new NetworkConfiguration format
-//         */
-//        public DQNDenseNetworkConfiguration toNetworkConfiguration() {
-//            DQNDenseNetworkConfigurationBuilder builder = DQNDenseNetworkConfiguration.builder()
-//                    .numHiddenNodes(numHiddenNodes)
-//                    .numLayers(numLayer)
-//                    .l2(l2)
-//                    .updater(updater);
-//
-//            if (listeners != null) {
-//                builder.listeners(Arrays.asList(listeners));
-//            }
-//
-//            return builder.build();
-//        }
-//    }
-
 }

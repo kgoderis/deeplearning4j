@@ -40,7 +40,7 @@ public interface NeuralNet<NET extends NeuralNet> extends TrainableNeuralNet<NET
     boolean isRecurrent();
 
     /**
-     * required for recurrent networks during init
+     * required for recurrent neuralNetHandler during init
      */
     void reset();
 

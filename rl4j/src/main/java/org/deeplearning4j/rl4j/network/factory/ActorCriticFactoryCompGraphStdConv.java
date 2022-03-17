@@ -103,34 +103,4 @@ public class ActorCriticFactoryCompGraphStdConv implements GraphFactory {
 
         return new ComputationGraph[] { model };
     }
-
-//    @AllArgsConstructor
-//    @Builder
-//    @Value
-//    @Deprecated
-//    public static class Configuration {
-//
-//        double l2;
-//        IUpdater updater;
-//        TrainingListener[] listeners;
-//        boolean useLSTM;
-//
-//        /**
-//         * Converts the deprecated Configuration to the new NetworkConfiguration format
-//         */
-//        public ActorCriticNetworkConfiguration toNetworkConfiguration() {
-//            ActorCriticNetworkConfigurationBuilder builder = ActorCriticNetworkConfiguration.builder()
-//                    .l2(l2)
-//                    .updater(updater)
-//                    .useLSTM(useLSTM);
-//
-//            if (listeners != null) {
-//                builder.listeners(Arrays.asList(listeners));
-//            }
-//
-//            return builder.build();
-//
-//        }
-//    }
-
 }

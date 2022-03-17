@@ -59,7 +59,7 @@ public abstract class BaseAsyncAgentLearnerBuilder<OBSERVATION extends Observati
 
 	@Override
 	protected NeuralNetUpdater<Gradients> buildNeuralNetUpdater() {
-		return new AsyncGradientsNeuralNetUpdater(networks.getThreadCurrentNetwork(), asyncSharedNetworksUpdateHandler);
+		return new AsyncGradientsNeuralNetUpdater(neuralNetHandler.getThreadCurrentNetwork(), asyncSharedNetworksUpdateHandler);
 	}
 
 	protected abstract AsyncSharedNetworksUpdateHandler buildAsyncSharedNetworksUpdateHandler();

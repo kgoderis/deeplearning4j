@@ -22,7 +22,7 @@ package org.deeplearning4j.rl4j.builder;
 import lombok.Getter;
 import org.deeplearning4j.rl4j.network.TrainableNeuralNet;
 
-public class SyncNetworkHandler implements NetworkHandler {
+public class SyncNetworkHandler implements AlgorithmNetworkHandler {
 
     @Getter
     final TrainableNeuralNet targetNetwork;

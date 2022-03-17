@@ -37,7 +37,7 @@ import org.deeplearning4j.rl4j.environment.observation.Observation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 /**
- * A {@link NetworkHandler} implementation to be used with
+ * A {@link AlgorithmNetworkHandler} implementation to be used with
  * {@link MultiLayerNetwork MultiLayerNetworks}
  */
 public class MultiLayerNetworkHandler extends PersistentNetworkHandler {
